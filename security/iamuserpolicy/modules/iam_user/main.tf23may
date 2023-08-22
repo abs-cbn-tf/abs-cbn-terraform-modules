@@ -1,0 +1,20 @@
+module "iam" {
+  source        = "../iam"
+  iam_policies  = var.iam_policies
+  iam_user_name  = var.iam_user_name
+}
+
+resource "aws_iam_user" "iam_user" {
+  name = var.iam_user_name
+}
+
+resource "aws_iam_user_policy_attachment" "iam_user_policy_attachment" {
+  count       = length(var.iam_policies)
+  user        = aws_iam_user.iam_user.name
+  policy_arn  = module.iam.iam_policy_arns[count.index]
+}
+
+output "iam_user_name" {
+  value = aws_iam_user.iam_user.name
+}
+

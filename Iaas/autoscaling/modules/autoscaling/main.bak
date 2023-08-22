@@ -1,0 +1,66 @@
+resource "aws_launch_template" "template" {
+  name          = "my-launch-template"
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Environment = "production"
+      Project     = "my-project"
+    }
+  }
+}
+
+resource "aws_autoscaling_group" "asg" {
+  name                      = "my-asg"
+  vpc_zone_identifier       = var.subnet_ids
+  launch_template {
+    id      = aws_launch_template.template.id
+    version = "$Latest"
+  }
+  min_size                  = var.min_size
+  max_size                  = var.max_size
+  desired_capacity          = var.desired_capacity
+  health_check_type         = "EC2"
+  health_check_grace_period = 300
+
+  tag {
+    key                 = "Environment"
+    value               = "production"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Project"
+    value               = "my-project"
+    propagate_at_launch = true
+  }
+
+  scaling_policy {
+    policy_name           = "scale-out"
+    adjustment_type       = "ChangeInCapacity"
+    scaling_adjustment    = 1
+    cooldown              = 300
+    target_tracking_configuration {
+      predefined_metric_specification {
+        predefined_metric_type = "ASGAverageCPUUtilization"
+      }
+      target_value = var.scale_out_cpu_threshold
+    }
+  }
+
+  scaling_policy {
+    policy_name           = "scale-in"
+    adjustment_type       = "ChangeInCapacity"
+    scaling_adjustment    = -1
+    cooldown              = 300
+    target_tracking_configuration {
+      predefined_metric_specification {
+        predefined_metric_type = "ASGAverageCPUUtilization"
+      }
+      target_value = var.scale_in_cpu_threshold
+    }
+  }
+}
+
