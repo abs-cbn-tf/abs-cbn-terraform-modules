@@ -1,10 +1,19 @@
 # resources on a single main.tf
+module "lambda-function" {
+  source     = "./modules/lambda"
+  aws_region = var.aws_region
+
+  # change variable value for lambda events
+  function_count          = var.function_count
+  function_configurations = var.function_configurations
+}
 module "apigw-lambda" {
   source     = "./modules/apigw-lambda"
   aws_region = var.aws_region
 
-  function_count          = var.function_count
-  function_configurations = var.function_configurations
+  # change variable value for lambda apigw
+  function_count          = var.apigw_function_count
+  function_configurations = var.apigw_function_configurations
 
   apigw_count          = var.apigw_count
   apigw_configurations = var.apigw_configurations

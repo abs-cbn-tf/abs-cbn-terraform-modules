@@ -1,9 +1,90 @@
 aws_region = "ap-southeast-1"
 
-function_count = 2
+function_count = 5
 
 function_configurations = [
   {
+    # function 1
+    function_name = "ChangeECSFromSI2ODPricing"
+    iam_role_name = "ChangeECSFromSI2ODPricing-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test = "test"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # function 2
+    function_name = "imp-trending-data-service"
+    iam_role_name = "imp-trending-data-service-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # function 3
+    function_name = "imp-syndicate-service"
+    iam_role_name = "imp-syndicate-service-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # function 4
+    function_name = "newrelic-log-ingestion"
+    iam_role_name = "newrelic-log-ingestion-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # function 5
+    function_name = "kentico-push-service-lambda"
+    iam_role_name = "kentico-push-service-lambda-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  }
+]
+
+apigw_function_count = 5
+
+apigw_function_configurations = [
+  {
+    # apigw_function 1
     function_name = "imp-content-api"
     iam_role_name = "imp-content-api-role"
     runtime       = "nodejs18.x"
@@ -18,8 +99,54 @@ function_configurations = [
     }
   },
   {
+    # apigw_function 2
     function_name = "imp-page-api"
-    iam_role_name = "iimp-page-api-role"
+    iam_role_name = "imp-page-api-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # apigw_function 3
+    function_name = "imp-wb-lite-api"
+    iam_role_name = "imp-wb-lite-api-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # apigw_function 4
+    function_name = "imp-image-upload"
+    iam_role_name = "imp-image-upload-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
+  },
+  {
+    # apigw_function 5
+    function_name = "imp-image"
+    iam_role_name = "imp-image-role"
     runtime       = "nodejs18.x"
     handler       = "index.handler"
     memory        = 128
@@ -33,10 +160,20 @@ function_configurations = [
   }
 ]
 
-apigw_count = 2
+apigw_count = 5
 
 apigw_configurations = [
   {
+    # apigw 1
+    apigw_name    = "content-api"
+    resource_name = "{proxy+}"
+    method_name   = "ANY"
+    stage_name    = "Prod"
+    api_key       = "content-api-key"
+    usage_plan    = "content-api-plan"
+  },
+  {
+    # apigw 2
     apigw_name    = "page-api"
     resource_name = "{proxy+}"
     method_name   = "ANY"
@@ -45,12 +182,31 @@ apigw_configurations = [
     usage_plan    = "page-api-plan"
   },
   {
-    apigw_name    = "content-api"
+    # apigw 3
+    apigw_name    = "imp-wb-lite-api"
     resource_name = "{proxy+}"
     method_name   = "ANY"
     stage_name    = "Prod"
-    api_key       = "content-api-key"
-    usage_plan    = "content-api-plan"
+    api_key       = "imp-wb-lite-api-key"
+    usage_plan    = "imp-wb-lite-api-plan"
+  },
+  {
+    # apigw 4
+    apigw_name    = "imp-image-upload-API"
+    resource_name = "imp-image-upload"
+    method_name   = "ANY"
+    stage_name    = "Prod"
+    api_key       = "imp-image-upload-API-key"
+    usage_plan    = "imp-image-upload-API-plan"
+  },
+  {
+    # apigw 5
+    apigw_name    = "image"
+    resource_name = "{proxy+}"
+    method_name   = "ANY"
+    stage_name    = "Prod"
+    api_key       = "image-key"
+    usage_plan    = "image-plan"
   }
 ]
 
