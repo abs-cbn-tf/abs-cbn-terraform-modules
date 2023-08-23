@@ -1,7 +1,7 @@
 #apigw invoke url
-output "api_gateway_endpoint" {
-  value = module.apigw-lambda.api_gateway_endpoint
-}
+# output "api_gateway_endpoint" {
+#   value = module.apigw-lambda.api_gateway_endpoint
+# }
 
 #cloudfront domain name
 output "distribution_domain_name" {

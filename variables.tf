@@ -135,22 +135,3 @@ variable "tags" {
   type        = map(string)
 }
 
-#variables for individual lambdas
-variable "lambda_function_count" {}
-variable "lambda_function_name" {
-  type = list(string)
-}
-variable "lambda_runtime" {}
-variable "lambda_handler" {}
-variable "lambda_iam_role_name" {
-  type = list(string)
-}
-variable "lambda_memory" {}
-
-# environment variables for lambda
-variable "lambda_env_var" {
-  type = list(map(string))
-}
-variable "lambda_function_tags" {
-  type = list(map(string))
-}
