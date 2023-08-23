@@ -1,44 +1,38 @@
 variable "aws_region" {}
-# variables for apigw
-variable "apigw_count" {}
-variable "apigw_name" {
-  type = list(string)
-}
-variable "resource_name" {
-  type = list(string)
+
+variable "function_count" {
+  type    = number
+  default = 1
 }
 
-variable "method_name" {
-  type = list(string)
-}
-variable "stage_name" {
-  type = list(string)
-}
-variable "api_key" {
-  type = list(string)
-}
-variable "usage_plan" {
-  type = list(string)
+variable "function_configurations" {
+  description = "Map of Lambda function configurations"
+  type = list(object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  }))
 }
 
-# variables for lambda
-variable "lambda_count" {}
-variable "function_name" {
-  type = list(string)
+variable "apigw_count" {
+  type    = number
+  default = 1
 }
-variable "runtime" {}
-variable "handler" {}
-variable "iam_role_name" {
-  type = list(string)
-}
-variable "memory" {}
 
-# environment variables for lambda
-variable "env_var" {
-  type = list(map(string))
-}
-variable "my_lambda_tags" {
-  type = list(map(string))
+variable "apigw_configurations" {
+  description = "Map of APIGW configurations"
+  type = list(object({
+    apigw_name    = string
+    resource_name = string
+    method_name   = string
+    stage_name    = string
+    api_key       = string
+    usage_plan    = string
+  }))
 }
 
 # ALB VARIABLES

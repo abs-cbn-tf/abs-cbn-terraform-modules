@@ -1,43 +1,15 @@
 # resources on a single main.tf
-module "lambda" {
-  source         = "./modules/lambda"
-  aws_region     = var.aws_region
-  function_name  = var.lambda_function_name
-  iam_role_name  = var.lambda_iam_role_name
-  runtime        = var.lambda_runtime
-  handler        = var.lambda_handler
-  memory         = var.lambda_memory
-  env_var        = var.lambda_env_var
-  my_lambda_tags = var.lambda_function_tags
-
-  lambda_count = var.lambda_function_count
-}
 module "apigw-lambda" {
-  source        = "./modules/apigw-lambda"
-  aws_region    = var.aws_region
-  function_name = var.function_name
+  source     = "./modules/apigw-lambda"
+  aws_region = var.aws_region
 
-  # variables for lambda
-  iam_role_name = var.iam_role_name
-  runtime       = var.runtime
-  handler       = var.handler
+  function_count          = var.function_count
+  function_configurations = var.function_configurations
 
-  memory         = var.memory
-  env_var        = var.env_var
-  my_lambda_tags = var.my_lambda_tags
+  apigw_count          = var.apigw_count
+  apigw_configurations = var.apigw_configurations
 
-  # variables for apigw
-  apigw_name    = var.apigw_name
-  resource_name = var.resource_name
-  method_name   = var.method_name
-  stage_name    = var.stage_name
-  api_key       = var.api_key
-  usage_plan    = var.usage_plan
-
-  lambda_count = var.lambda_count
-  apigw_count  = var.apigw_count
 }
-
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
   source     = "./modules/ecs-alb"
@@ -156,7 +128,7 @@ module "push-web-sg" {
     "abscbn-env"         = "prod"
     "abscbn-product"     = "ent"
     "abscbn-url"         = "pushweb.abs-cbn.com"
-    "Name" = "push-web-sg"
+    "Name"               = "push-web-sg"
   }
   vpc_id = module.vpc.vpc_id
 }

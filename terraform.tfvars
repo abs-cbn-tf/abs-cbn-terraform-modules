@@ -1,160 +1,60 @@
 aws_region = "ap-southeast-1"
 
-# INDIVIDUAL LAMBDA FUNCTIONS FOR PUSH
-lambda_function_count = 5
-lambda_function_name = [
-  "ChangeEC2FromSI2ODPricing",
-  "imp-trending-data-service",
-  "imp-syndicate-service",
-  "newrelic-log-ingestion",
-  "kentico-push-service-lambda"
-]
-lambda_runtime = "nodejs18.x"
-lambda_handler = "index.handler"
-lambda_memory  = 128
-lambda_iam_role_name = [
-  "ChangeEC2FromSI2ODPricing-role",
-  "imp-trending-data-service-role",
-  "imp-syndicate-service-role",
-  "newrelic-log-ingestion-role",
-  "kentico-push-service-lambda-role"
-]
-lambda_env_var = [
+function_count = 2
+
+function_configurations = [
   {
+    function_name = "imp-content-api"
+    iam_role_name = "imp-content-api-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test = "test"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
   },
   {
-  },
-  {
-  },
-  {
-  },
-  {
+    function_name = "imp-page-api"
+    iam_role_name = "iimp-page-api-role"
+    runtime       = "nodejs18.x"
+    handler       = "index.handler"
+    memory        = 128
+    env_var = {
+      test1 = "test1"
+    }
+    my_lambda_tags = {
+      App         = "Push"
+      Environment = "Demo"
+    }
   }
 ]
-lambda_function_tags = [
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  }
 
-]
+apigw_count = 2
 
-# LAMBDA FUNCTIONS WITH APIGW TRIGGER
-apigw_count = 6
-apigw_name = [
-  "content-api-gateway",
-  "page-api-gateway",
-  "image",
-  "imp-image-upload-API",
-  "imp-wb-lite-api",
-  "pb-api-gateway"
-]
-resource_name = [
-  "{proxy+}",
-  "{proxy+}",
-  "{proxy+}",
-  "imp-image-upload",
-  "{proxy+}",
-  "{proxy+}",
-
-]
-method_name = ["ANY", "ANY", "ANY", "ANY", "ANY", "ANY"]
-stage_name  = ["PROD", "PROD", "PROD", "PROD", "PROD", "PROD"]
-api_key = [
-  "push-web-call-content-api",
-  "push-web-call-page-api",
-  "ui-call-image-fetch",
-  "wb-call-image-upload",
-  "wb-lite-api",
-  "pb-web-call-pb-api"
-]
-usage_plan = [
-  "push-web-call-content-api-plan",
-  "push-web-call-page-api-plan",
-  "ui-call-image-fetch-plan",
-  "wb-call-image-upload-plan",
-  "wb-lite-api-plan",
-  "pb-web-call-pb-api"
-]
-
-lambda_count = 6
-function_name = [
-  "imp-content-api",
-  "imp-page-api",
-  "imp-image",
-  "imp-image-upload",
-  "imp-wb-lite-api",
-  "imp-pcm-api"
-]
-runtime = "nodejs18.x"
-handler = "index.handler"
-iam_role_name = [
-  "imp-content-api-role",
-  "imp-page-api-role",
-  "imp-image-role",
-  "imp-image-upload-role",
-  "imp-wb-lite-api-role",
-  "imp-pcm-api-role"
-]
-memory = 128
-env_var = [
+apigw_configurations = [
   {
+    apigw_name    = "page-api"
+    resource_name = "{proxy+}"
+    method_name   = "ANY"
+    stage_name    = "Prod"
+    api_key       = "page-api-key"
+    usage_plan    = "page-api-plan"
   },
   {
-  },
-  {
-  },
-  {
-  },
-  {
-  },
-  {
+    apigw_name    = "content-api"
+    resource_name = "{proxy+}"
+    method_name   = "ANY"
+    stage_name    = "Prod"
+    api_key       = "content-api-key"
+    usage_plan    = "content-api-plan"
   }
 ]
-my_lambda_tags = [
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  },
-  {
-    Application = "Push"
-    Environment = "Demo"
-  }
-]
+
 # ALB VARIABLES
-
 listener_port     = 443
 target_group_name = "push-web-alb"
 target_group_port = 80
