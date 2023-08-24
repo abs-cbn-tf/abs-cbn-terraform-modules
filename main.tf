@@ -1,12 +1,23 @@
 # resources on a single main.tf
-module "lambda-function" {
-  source     = "./modules/lambda"
-  aws_region = var.aws_region
+# module "lambda-function" {
+#   source     = "./modules/lambda"
+#   aws_region = var.aws_region
 
-  # change variable value for lambda events
-  function_count          = var.function_count
-  function_configurations = var.function_configurations
+#   # change variable value for lambda events
+#   function_count          = var.function_count
+#   function_configurations = var.function_configurations
+# }
+
+module "eventbridge-lambda" {
+  source                  = "./modules/eventbridge-lambda"
+  aws_region              = var.aws_region
+  function_count          = var.events_function_count
+  function_configurations = var.events_function_configurations
+
+  eventbridge_count         = var.eventbridge_count
+  eventbridge_configuration = var.eventbridge_configuration
 }
+
 module "apigw-lambda" {
   source     = "./modules/apigw-lambda"
   aws_region = var.aws_region

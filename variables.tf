@@ -1,12 +1,12 @@
 variable "aws_region" {}
 
 # for lambda events
-variable "function_count" {
+variable "events_function_count" {
   type    = number
   default = 1
 }
 
-variable "function_configurations" {
+variable "events_function_configurations" {
   description = "Map of Lambda function configurations"
   type = list(object({
     function_name  = string
@@ -16,6 +16,20 @@ variable "function_configurations" {
     memory         = number
     env_var        = map(string)
     my_lambda_tags = map(string)
+  }))
+}
+
+variable "eventbridge_count" {
+  type = number
+}
+
+variable "eventbridge_configuration" {
+  description = "List of cloudwatch events configurations"
+  type = list(object({
+    name                 = string
+    description          = string
+    event_bus_name       = string
+    scheduled_expression = string
   }))
 }
 
@@ -37,8 +51,6 @@ variable "apigw_function_configurations" {
     my_lambda_tags = map(string)
   }))
 }
-
-# for apigw
 
 variable "apigw_count" {
   type    = number

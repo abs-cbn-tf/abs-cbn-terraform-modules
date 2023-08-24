@@ -1,4 +1,3 @@
-# Input Variables
 variable "aws_region" {
   description = "aws region"
   type        = string
@@ -22,4 +21,16 @@ variable "function_configurations" {
   }))
 }
 
+variable "eventbridge_count" {
+  type = number
+}
 
+variable "eventbridge_configuration" {
+  description = "List of cloudwatch events configurations"
+  type = list(object({
+    name                 = string
+    description          = string
+    event_bus_name       = string
+    scheduled_expression = string
+  }))
+}

@@ -1,8 +1,8 @@
 aws_region = "ap-southeast-1"
 
-function_count = 5
+events_function_count = 2
 
-function_configurations = [
+events_function_configurations = [
   {
     # function 1
     function_name = "ChangeECSFromSI2ODPricing"
@@ -32,53 +32,29 @@ function_configurations = [
       App         = "Push"
       Environment = "Demo"
     }
-  },
-  {
-    # function 3
-    function_name = "imp-syndicate-service"
-    iam_role_name = "imp-syndicate-service-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # function 4
-    function_name = "newrelic-log-ingestion"
-    iam_role_name = "newrelic-log-ingestion-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # function 5
-    function_name = "kentico-push-service-lambda"
-    iam_role_name = "kentico-push-service-lambda-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
   }
 ]
+
+eventbridge_count = 2
+
+eventbridge_configuration = [
+  {
+    #event 1
+    name                 = "SpotContainerNotStartedRule"
+    description          = "My Rule"
+    event_bus_name       = "default"
+    scheduled_expression = "cron(5 * * * ? *)"
+  },
+  {
+    #event 2
+    name                 = "imp-trending-data-load"
+    description          = "My Rule"
+    event_bus_name       = "default"
+    scheduled_expression = "cron(5 * * * ? *)"
+  }
+]
+
+#for APIGW-Lambda
 
 apigw_function_count = 5
 
