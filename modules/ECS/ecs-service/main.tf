@@ -1,3 +1,40 @@
+resource "aws_ecr_repository" "example" {
+  count                = length(var.repositories)
+  name                 = var.repositories[count.index]
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+
+variable "repositories" {
+  description = "A list of ECR repository names to be created"
+  type        = list(string)
+#  default     = ["migration-middleware", "workbench-api", "workbench-web"]
+  default     = ["push-web"]
+}
+
+
+output "repository_urls" {
+  value = aws_ecr_repository.example[*].repository_url
+}
+
+#variable "task_role_name" {
+#  description = "Name for the IAM role that the ECS task will assume"
+#  type        = string
+#}
+
+
+module "iam_role" {
+  source           = "../../iamroles"
+  task_role_name   = var.task_role_name
+}
+
+# image = aws_ecr_repository.example[1].repository_url 
+#"image": "${var.container_image}"
+
 resource "aws_ecs_task_definition" "taskdef" {
   family = var.task_family
   # container_definitions = var.container_definitions
@@ -5,7 +42,7 @@ resource "aws_ecs_task_definition" "taskdef" {
     [
       {
         "name": "${var.container_name}",
-        "image": "${var.container_image}",
+        "image": "${aws_ecr_repository.example[0].repository_url}",
         "cpu": ${var.container_cpu},
         "memory": ${var.container_memory},
         "portMappings": [
@@ -18,8 +55,10 @@ resource "aws_ecs_task_definition" "taskdef" {
       }  
     ]
   EOF
-  execution_role_arn       = aws_iam_role.role.arn
-  task_role_arn            = aws_iam_role.role.arn
+#  execution_role_arn       = aws_iam_role.role.arn
+  execution_role_arn       = module.iam_role.iam_role_arn
+  task_role_arn            = module.iam_role.iam_role_arn
+#  task_role_arn            = module.iam_role.iam_role_arn
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   network_mode             = var.network_mode
@@ -40,6 +79,8 @@ resource "aws_ecs_task_definition" "taskdef" {
 }
 
 # ecsTaskExecutionRole
+
+/*
 resource "aws_iam_role" "role" {
   name = var.task_role_name
   assume_role_policy = jsonencode({
@@ -59,14 +100,16 @@ resource "aws_iam_role" "role" {
     ]
   })
 }
-
+*/ 
 resource "aws_iam_role_policy_attachment" "attach1" {
-  role       = aws_iam_role.role.name
+#  role       = aws_iam_role.role.name
+  role       = module.iam_role.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "attach2" {
-  role       = aws_iam_role.role.name
+#  role       = aws_iam_role.role.name
+  role       = module.iam_role.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
