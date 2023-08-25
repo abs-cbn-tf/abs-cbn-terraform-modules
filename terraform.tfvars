@@ -43,7 +43,18 @@ eventbridge_configuration = [
     name                 = "SpotContainerNotStartedRule"
     description          = "My Rule"
     event_bus_name       = "default"
-    scheduled_expression = "cron(5 * * * ? *)"
+    scheduled_expression = ""
+    event_pattern        = <<PATTERN
+    {
+      "source": ["aws.ecs"],
+      "detail-type": ["ECS Deployment State Change"],
+      "detail": {
+        "eventName": ["SERVICE_TASK_PLACEMENT_FAILURE"],
+        "clusterArn": ["arn:aws:ecs:ap-southeast-1:807238331692:cluster/consumption"],
+        "reason": ["RESOURCE:FARGATE"]
+      }
+    }
+    PATTERN
   },
   {
     #event 2
@@ -51,6 +62,7 @@ eventbridge_configuration = [
     description          = "My Rule"
     event_bus_name       = "default"
     scheduled_expression = "cron(5 * * * ? *)"
+    event_pattern        = ""
   }
 ]
 

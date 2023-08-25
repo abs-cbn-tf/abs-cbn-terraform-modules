@@ -5,8 +5,13 @@ resource "aws_cloudwatch_event_rule" "example_rule" {
   description    = var.eventbridge_configuration[count.index].description
   event_bus_name = var.eventbridge_configuration[count.index].event_bus_name
 
+  # schedule_expression = var.eventbridge_configuration[count.index].scheduled_expression
+  # event_pattern       = var.eventbridge_configuration[count.index].event_pattern
+
+  event_pattern       = var.eventbridge_configuration[count.index].event_pattern
   schedule_expression = var.eventbridge_configuration[count.index].scheduled_expression
 }
+
 
 resource "aws_cloudwatch_event_target" "example_target" {
   count = var.eventbridge_count

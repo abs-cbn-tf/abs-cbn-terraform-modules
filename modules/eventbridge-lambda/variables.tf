@@ -32,5 +32,6 @@ variable "eventbridge_configuration" {
     description          = string
     event_bus_name       = string
     scheduled_expression = string
+    event_pattern        = string
   }))
 }
