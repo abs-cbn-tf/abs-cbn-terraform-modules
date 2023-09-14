@@ -1,50 +1,33 @@
 aws_region = "ap-southeast-1"
+# FOR LAMBDAS WITH EVENTS TRIGGER
+events_function_configurations_1 = {
+  function_name = "ChangeECSFromSI2ODPricing"
+  iam_role_name = "ChangeECSFromSI2ODPricing-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
 
-events_function_count = 2
-
-events_function_configurations = [
-  {
-    # function 1
-    function_name = "ChangeECSFromSI2ODPricing"
-    iam_role_name = "ChangeECSFromSI2ODPricing-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test = "test"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # function 2
-    function_name = "imp-trending-data-service"
-    iam_role_name = "imp-trending-data-service-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
   }
-]
+  my_lambda_tags = {
+    Backup             = "False"
+    OwnerTeamEmail     = "mardelacruz@abs-cbn.com"
+    abscbn-bus-unit    = "DCT"
+    abscbn-cost-centre = 61250
+    abscbn-criticality = "Silver"
+    abscbn-env         = "Prod"
+    abscbn-product     = "entertainment"
+    abscbn-url         = "abs-cbn.com"
+  }
+}
 
-eventbridge_count = 2
-
-eventbridge_configuration = [
-  {
-    #event 1
-    name                 = "SpotContainerNotStartedRule"
-    description          = "My Rule"
-    event_bus_name       = "default"
-    scheduled_expression = ""
-    event_pattern        = <<PATTERN
+eventbridge_configuration_1 = {
+  #event 1
+  name                 = "SpotContainerNotStartedRule"
+  description          = ""
+  event_bus_name       = "default"
+  scheduled_expression = ""
+  event_pattern        = <<PATTERN
     {
       "source": ["aws.ecs"],
       "detail-type": ["ECS Deployment State Change"],
@@ -55,148 +38,162 @@ eventbridge_configuration = [
       }
     }
     PATTERN
-  },
-  {
-    #event 2
-    name                 = "imp-trending-data-load"
-    description          = "My Rule"
-    event_bus_name       = "default"
-    scheduled_expression = "cron(5 * * * ? *)"
-    event_pattern        = ""
+}
+events_function_configurations_2 = {
+  function_name = "imp-trending-data-service"
+  iam_role_name = "imp-trending-data-service-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
   }
-]
-
-#for APIGW-Lambda
-
-apigw_function_count = 5
-
-apigw_function_configurations = [
-  {
-    # apigw_function 1
-    function_name = "imp-content-api"
-    iam_role_name = "imp-content-api-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test = "test"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # apigw_function 2
-    function_name = "imp-page-api"
-    iam_role_name = "imp-page-api-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # apigw_function 3
-    function_name = "imp-wb-lite-api"
-    iam_role_name = "imp-wb-lite-api-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # apigw_function 4
-    function_name = "imp-image-upload"
-    iam_role_name = "imp-image-upload-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
-  },
-  {
-    # apigw_function 5
-    function_name = "imp-image"
-    iam_role_name = "imp-image-role"
-    runtime       = "nodejs18.x"
-    handler       = "index.handler"
-    memory        = 128
-    env_var = {
-      test1 = "test1"
-    }
-    my_lambda_tags = {
-      App         = "Push"
-      Environment = "Demo"
-    }
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
   }
-]
+}
 
-apigw_count = 5
+eventbridge_configuration_2 = {
+  #   #event 2
+  name                 = "imp-trending-data-load"
+  description          = ""
+  event_bus_name       = "default"
+  scheduled_expression = "cron(5 * * * ? *)"
+  event_pattern        = ""
+}
 
-apigw_configurations = [
-  {
-    # apigw 1
-    apigw_name    = "content-api"
-    resource_name = "{proxy+}"
-    method_name   = "ANY"
-    stage_name    = "Prod"
-    api_key       = "content-api-key"
-    usage_plan    = "content-api-plan"
-  },
-  {
-    # apigw 2
-    apigw_name    = "page-api"
-    resource_name = "{proxy+}"
-    method_name   = "ANY"
-    stage_name    = "Prod"
-    api_key       = "page-api-key"
-    usage_plan    = "page-api-plan"
-  },
-  {
-    # apigw 3
-    apigw_name    = "imp-wb-lite-api"
-    resource_name = "{proxy+}"
-    method_name   = "ANY"
-    stage_name    = "Prod"
-    api_key       = "imp-wb-lite-api-key"
-    usage_plan    = "imp-wb-lite-api-plan"
-  },
-  {
-    # apigw 4
-    apigw_name    = "imp-image-upload-API"
-    resource_name = "imp-image-upload"
-    method_name   = "ANY"
-    stage_name    = "Prod"
-    api_key       = "imp-image-upload-API-key"
-    usage_plan    = "imp-image-upload-API-plan"
-  },
-  {
-    # apigw 5
-    apigw_name    = "image"
-    resource_name = "{proxy+}"
-    method_name   = "ANY"
-    stage_name    = "Prod"
-    api_key       = "image-key"
-    usage_plan    = "image-plan"
+
+#FOR LAMBDAS WITH APIGW TRIGGER
+apigw_function_configurations_1 = {
+  # apigw_function 1
+  function_name = "imp-content-api"
+  iam_role_name = "imp-content-api-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
   }
-]
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
+  }
+}
+
+apigw_configurations_1 = {
+  # apigw 1
+  apigw_name    = "content-api"
+  resource_name = "{proxy+}"
+  method_name   = "ANY"
+  stage_name    = "Prod"
+  api_key       = "content-api-key"
+  usage_plan    = "content-api-plan"
+}
+
+apigw_function_configurations_2 = {
+  # apigw_function 1
+  function_name = "imp-page-api"
+  iam_role_name = "imp-page-api-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
+  }
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
+  }
+}
+
+apigw_configurations_2 = {
+  # apigw 1
+  apigw_name    = "page-api"
+  resource_name = "{proxy+}"
+  method_name   = "ANY"
+  stage_name    = "Prod"
+  api_key       = "page-api-key"
+  usage_plan    = "page-api-plan"
+}
+
+apigw_function_configurations_3 = {
+  # apigw_function 1
+  function_name = "imp-wb-lite-api"
+  iam_role_name = "imp-wb-lite-api-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
+  }
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
+  }
+}
+
+apigw_configurations_3 = {
+  # apigw 1
+  apigw_name    = "imp-wb-lite-api"
+  resource_name = "{proxy+}"
+  method_name   = "ANY"
+  stage_name    = "Prod"
+  api_key       = "imp-wb-lite-api-key"
+  usage_plan    = "imp-wb-lite-api-plan"
+}
+
+apigw_function_configurations_4 = {
+  # apigw_function 1
+  function_name = "imp-image-upload"
+  iam_role_name = "imp-image-upload-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
+  }
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
+  }
+}
+
+apigw_configurations_4 = {
+  # apigw 1
+  apigw_name    = "imp-image-upload-API"
+  resource_name = "imp-image-upload"
+  method_name   = "ANY"
+  stage_name    = "Prod"
+  api_key       = "imp-image-upload-API-key"
+  usage_plan    = "imp-image-upload-API-plan"
+}
+
+apigw_function_configurations_5 = {
+  # apigw_function 1
+  function_name = "imp-image"
+  iam_role_name = "imp-image-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    test = "test"
+  }
+  my_lambda_tags = {
+    App         = "Push"
+    Environment = "Demo"
+  }
+}
+
+apigw_configurations_5 = {
+  # apigw 1
+  apigw_name    = "image"
+  resource_name = "{proxy+}"
+  method_name   = "ANY"
+  stage_name    = "Prod"
+  api_key       = "image-key"
+  usage_plan    = "image-plan"
+}
 
 # ALB VARIABLES
 listener_port     = 443

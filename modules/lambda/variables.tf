@@ -4,14 +4,9 @@ variable "aws_region" {
   type        = string
 }
 
-variable "function_count" {
-  type    = number
-  default = 1
-}
-
 variable "function_configurations" {
   description = "Map of Lambda function configurations"
-  type = list(object({
+  type = object({
     function_name  = string
     iam_role_name  = string
     runtime        = string
@@ -19,7 +14,7 @@ variable "function_configurations" {
     memory         = number
     env_var        = map(string)
     my_lambda_tags = map(string)
-  }))
+  })
 }
 
 

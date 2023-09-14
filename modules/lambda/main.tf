@@ -12,8 +12,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  count              = var.function_count
-  name               = var.function_configurations[count.index].iam_role_name
+  name               = var.function_configurations.iam_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -24,22 +23,20 @@ data "archive_file" "lambda" {
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  count = var.function_count
-
   filename      = "lambda_function_payload.zip"
-  function_name = var.function_configurations[count.index].function_name
-  role          = aws_iam_role.iam_for_lambda[count.index].arn
-  handler       = var.function_configurations[count.index].handler
-  memory_size   = var.function_configurations[count.index].memory
+  function_name = var.function_configurations.function_name
+  role          = aws_iam_role.iam_for_lambda.arn
+  handler       = var.function_configurations.handler
+  memory_size   = var.function_configurations.memory
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
 
-  runtime = var.function_configurations[count.index].runtime
+  runtime = var.function_configurations.runtime
 
   environment {
-    variables = var.function_configurations[count.index].env_var
+    variables = var.function_configurations.env_var
   }
 
-  tags = var.function_configurations[count.index].my_lambda_tags
+  tags = var.function_configurations.my_lambda_tags
 }
 

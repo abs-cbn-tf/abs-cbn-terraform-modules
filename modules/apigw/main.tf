@@ -2,9 +2,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_api_gateway_rest_api" "my_rest_api" {
-  count = var.apigw_count
-
-  name        = var.apigw_configurations[count.index].apigw_name
+  name        = var.apigw_configurations.apigw_name
   description = "My API Gateway REST API"
   endpoint_configuration {
     types = ["REGIONAL"]
@@ -13,40 +11,32 @@ resource "aws_api_gateway_rest_api" "my_rest_api" {
 
 # Create a resource within the REST API
 resource "aws_api_gateway_resource" "my_resource" {
-  count = var.apigw_count
-
-  rest_api_id = aws_api_gateway_rest_api.my_rest_api[count.index].id
-  parent_id   = aws_api_gateway_rest_api.my_rest_api[count.index].root_resource_id
-  path_part   = var.apigw_configurations[count.index].resource_name
+  rest_api_id = aws_api_gateway_rest_api.my_rest_api.id
+  parent_id   = aws_api_gateway_rest_api.my_rest_api.root_resource_id
+  path_part   = var.apigw_configurations.resource_name
 }
 
 # Create a method for the resource
 resource "aws_api_gateway_method" "my_method" {
-  count = var.apigw_count
-
-  rest_api_id   = aws_api_gateway_rest_api.my_rest_api[count.index].id
-  resource_id   = aws_api_gateway_resource.my_resource[count.index].id
-  http_method   = var.apigw_configurations[count.index].method_name
+  rest_api_id   = aws_api_gateway_rest_api.my_rest_api.id
+  resource_id   = aws_api_gateway_resource.my_resource.id
+  http_method   = var.apigw_configurations.method_name
   authorization = "NONE"
 }
 
 # Configure the integration between API Gateway and the Lambda function
 resource "aws_api_gateway_integration" "my_integration" {
-  count = var.apigw_count
-
-  rest_api_id             = aws_api_gateway_rest_api.my_rest_api[count.index].id
-  resource_id             = aws_api_gateway_resource.my_resource[count.index].id
-  http_method             = aws_api_gateway_method.my_method[count.index].http_method
+  rest_api_id             = aws_api_gateway_rest_api.my_rest_api.id
+  resource_id             = aws_api_gateway_resource.my_resource.id
+  http_method             = aws_api_gateway_method.my_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = var.apigw_lambda_invoke_arn[count.index]
+  uri                     = var.apigw_lambda_invoke_arn
 }
 
 # Deploy the API
 resource "aws_api_gateway_deployment" "my_deployment" {
-  count = var.apigw_count
-
-  rest_api_id = aws_api_gateway_rest_api.my_rest_api[count.index].id
+  rest_api_id = aws_api_gateway_rest_api.my_rest_api.id
 
   triggers = {
     # NOTE: The configuration below will satisfy ordering considerations,
@@ -57,9 +47,9 @@ resource "aws_api_gateway_deployment" "my_deployment" {
     #       resources will show a difference after the initial implementation.
     #       It will stabilize to only change when resources change afterwards.
     redeployment = sha1(jsonencode([
-      aws_api_gateway_resource.my_resource[count.index].id,
-      aws_api_gateway_method.my_method[count.index].id,
-      aws_api_gateway_integration.my_integration[count.index].id,
+      aws_api_gateway_resource.my_resource.id,
+      aws_api_gateway_method.my_method.id,
+      aws_api_gateway_integration.my_integration.id,
     ]))
   }
 
@@ -71,23 +61,19 @@ resource "aws_api_gateway_deployment" "my_deployment" {
 # Create stage
 
 resource "aws_api_gateway_stage" "example" {
-  count = var.apigw_count
-
-  deployment_id = aws_api_gateway_deployment.my_deployment[count.index].id
-  rest_api_id   = aws_api_gateway_rest_api.my_rest_api[count.index].id
-  stage_name    = var.apigw_configurations[count.index].stage_name
+  deployment_id = aws_api_gateway_deployment.my_deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.my_rest_api.id
+  stage_name    = var.apigw_configurations.stage_name
 }
 
 # Create the permission to invoke the Lambda function
 
 resource "aws_lambda_permission" "lambda_permission" {
-  count = var.apigw_count
-
   statement_id  = "AllowMyDemoAPIInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = var.apigw_function_name[count.index]
+  function_name = var.apigw_function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.my_rest_api[count.index].id}/*/*/*"
+  source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.my_rest_api.id}/*/*/*"
 
   # The /* part allows invocation from any stage, method and resource path
   # within API Gateway.
@@ -98,12 +84,11 @@ resource "aws_lambda_permission" "lambda_permission" {
 # apigw usage plan w/ API keys
 # no method throttling yet
 resource "aws_api_gateway_usage_plan" "myusageplan" {
-  count = var.apigw_count
-  name  = var.apigw_configurations[count.index].usage_plan
+  name = var.apigw_configurations.usage_plan
 
   api_stages {
-    api_id = aws_api_gateway_rest_api.my_rest_api[count.index].id
-    stage  = aws_api_gateway_stage.example[count.index].stage_name
+    api_id = aws_api_gateway_rest_api.my_rest_api.id
+    stage  = aws_api_gateway_stage.example.stage_name
   }
   throttle_settings {
     burst_limit = 100
@@ -116,13 +101,11 @@ resource "aws_api_gateway_usage_plan" "myusageplan" {
 }
 
 resource "aws_api_gateway_api_key" "mykey" {
-  count = var.apigw_count
-  name  = var.apigw_configurations[count.index].api_key
+  name = var.apigw_configurations.api_key
 }
 
 resource "aws_api_gateway_usage_plan_key" "main" {
-  count         = var.apigw_count
-  key_id        = aws_api_gateway_api_key.mykey[count.index].id
+  key_id        = aws_api_gateway_api_key.mykey.id
   key_type      = "API_KEY"
-  usage_plan_id = aws_api_gateway_usage_plan.myusageplan[count.index].id
+  usage_plan_id = aws_api_gateway_usage_plan.myusageplan.id
 }

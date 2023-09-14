@@ -1,14 +1,9 @@
 variable "aws_region" {}
 
-# for lambda events
-variable "events_function_count" {
-  type    = number
-  default = 1
-}
-
-variable "events_function_configurations" {
+# FOR LAMBDAS WITH EVENTS TRIGGER
+variable "events_function_configurations_1" {
   description = "Map of Lambda function configurations"
-  type = list(object({
+  type = object({
     function_name  = string
     iam_role_name  = string
     runtime        = string
@@ -16,33 +11,22 @@ variable "events_function_configurations" {
     memory         = number
     env_var        = map(string)
     my_lambda_tags = map(string)
-  }))
+  })
 }
-
-variable "eventbridge_count" {
-  type = number
-}
-
-variable "eventbridge_configuration" {
+variable "eventbridge_configuration_1" {
   description = "List of cloudwatch events configurations"
-  type = list(object({
+  type = object({
     name                 = string
     description          = string
     event_bus_name       = string
     scheduled_expression = string
     event_pattern        = string
-  }))
+  })
 }
 
-# for apigw lambda 
-variable "apigw_function_count" {
-  type    = number
-  default = 1
-}
-
-variable "apigw_function_configurations" {
+variable "events_function_configurations_2" {
   description = "Map of Lambda function configurations"
-  type = list(object({
+  type = object({
     function_name  = string
     iam_role_name  = string
     runtime        = string
@@ -50,24 +34,143 @@ variable "apigw_function_configurations" {
     memory         = number
     env_var        = map(string)
     my_lambda_tags = map(string)
-  }))
+  })
+}
+variable "eventbridge_configuration_2" {
+  description = "List of cloudwatch events configurations"
+  type = object({
+    name                 = string
+    description          = string
+    event_bus_name       = string
+    scheduled_expression = string
+    event_pattern        = string
+  })
 }
 
-variable "apigw_count" {
-  type    = number
-  default = 1
+# FOR LAMBDAS WITH APIGW TRIGGER
+variable "apigw_function_configurations_1" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
 }
 
-variable "apigw_configurations" {
+variable "apigw_configurations_1" {
   description = "Map of APIGW configurations"
-  type = list(object({
+  type = object({
     apigw_name    = string
     resource_name = string
     method_name   = string
     stage_name    = string
     api_key       = string
     usage_plan    = string
-  }))
+  })
+}
+
+variable "apigw_function_configurations_2" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
+variable "apigw_configurations_2" {
+  description = "Map of APIGW configurations"
+  type = object({
+    apigw_name    = string
+    resource_name = string
+    method_name   = string
+    stage_name    = string
+    api_key       = string
+    usage_plan    = string
+  })
+}
+
+variable "apigw_function_configurations_3" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
+variable "apigw_configurations_3" {
+  description = "Map of APIGW configurations"
+  type = object({
+    apigw_name    = string
+    resource_name = string
+    method_name   = string
+    stage_name    = string
+    api_key       = string
+    usage_plan    = string
+  })
+}
+
+variable "apigw_function_configurations_4" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
+variable "apigw_configurations_4" {
+  description = "Map of APIGW configurations"
+  type = object({
+    apigw_name    = string
+    resource_name = string
+    method_name   = string
+    stage_name    = string
+    api_key       = string
+    usage_plan    = string
+  })
+}
+
+variable "apigw_function_configurations_5" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
+variable "apigw_configurations_5" {
+  description = "Map of APIGW configurations"
+  type = object({
+    apigw_name    = string
+    resource_name = string
+    method_name   = string
+    stage_name    = string
+    api_key       = string
+    usage_plan    = string
+  })
 }
 
 # ALB VARIABLES

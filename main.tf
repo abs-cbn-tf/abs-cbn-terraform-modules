@@ -1,34 +1,47 @@
-# resources on a single main.tf
-# module "lambda-function" {
-#   source     = "./modules/lambda"
-#   aws_region = var.aws_region
-
-#   # change variable value for lambda events
-#   function_count          = var.function_count
-#   function_configurations = var.function_configurations
-# }
-
-module "eventbridge-lambda" {
-  source                  = "./modules/eventbridge-lambda"
-  aws_region              = var.aws_region
-  function_count          = var.events_function_count
-  function_configurations = var.events_function_configurations
-
-  eventbridge_count         = var.eventbridge_count
-  eventbridge_configuration = var.eventbridge_configuration
+# MODULES FOR LAMBDAS WITH EVENTS TRIGGER
+module "eventbridge-lambda-1" {
+  source                    = "./modules/eventbridge-lambda"
+  aws_region                = var.aws_region
+  function_configurations   = var.events_function_configurations_1
+  eventbridge_configuration = var.eventbridge_configuration_1
 }
 
-module "apigw-lambda" {
-  source     = "./modules/apigw-lambda"
-  aws_region = var.aws_region
-
-  # change variable value for lambda apigw
-  function_count          = var.apigw_function_count
-  function_configurations = var.apigw_function_configurations
-
-  apigw_count          = var.apigw_count
-  apigw_configurations = var.apigw_configurations
-
+module "eventbridge-lambda-2" {
+  source                    = "./modules/eventbridge-lambda"
+  aws_region                = var.aws_region
+  function_configurations   = var.events_function_configurations_2
+  eventbridge_configuration = var.eventbridge_configuration_2
+}
+# MODULES FOR LAMBDAS WITH APIGW TRIGGER
+module "apigw-lambda-1" {
+  source                  = "./modules/apigw-lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.apigw_function_configurations_1
+  apigw_configurations    = var.apigw_configurations_1
+}
+module "apigw-lambda-2" {
+  source                  = "./modules/apigw-lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.apigw_function_configurations_2
+  apigw_configurations    = var.apigw_configurations_2
+}
+module "apigw-lambda-3" {
+  source                  = "./modules/apigw-lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.apigw_function_configurations_3
+  apigw_configurations    = var.apigw_configurations_3
+}
+module "apigw-lambda-4" {
+  source                  = "./modules/apigw-lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.apigw_function_configurations_4
+  apigw_configurations    = var.apigw_configurations_4
+}
+module "apigw-lambda-5" {
+  source                  = "./modules/apigw-lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.apigw_function_configurations_5
+  apigw_configurations    = var.apigw_configurations_5
 }
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
