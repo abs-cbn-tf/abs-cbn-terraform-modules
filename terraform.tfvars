@@ -280,3 +280,9 @@ tags = {
   key1 = "value1"
   key2 = "value2"
 }
+
+####opensearch
+aws_account_id="996478355195"
+cluster_name = "dev-cluster"
+instance_type = "m3.medium.search"
+
