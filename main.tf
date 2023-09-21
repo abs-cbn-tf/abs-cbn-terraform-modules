@@ -159,3 +159,52 @@ module "cloudfront-s3" {
   bucket_name = var.bucket_name
   tags        = var.tags
 }
+
+
+module "opensearch_dev" {
+  source = "./modules/opensearch"
+
+  cluster_name    = var.cluster_name
+  instance_type   = var.instance_type
+  access_policies = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "es.amazonaws.com"
+      },
+      "Action": "es:*",
+      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/your-cluster-name/*"
+    }
+  ]
+}
+POLICY
+}
+
+
+
+
+module "opensearch_prod" {
+  source = "./modules/opensearch"
+
+  cluster_name    = "prod-cluster"
+  instance_type   = "t2.small.search"
+  access_policies = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "es.amazonaws.com"
+      },
+      "Action": "es:*",
+      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/prod-cluster/*"
+    }
+  ]
+}
+POLICY
+}
+
