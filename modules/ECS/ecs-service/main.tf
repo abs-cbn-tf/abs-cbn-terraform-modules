@@ -1,7 +1,12 @@
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/${var.task_family}" # Replace with your desired log group name
+  retention_in_days = 30                        # Adjust the retention period as needed
+}
 resource "aws_ecr_repository" "example" {
   count                = length(var.repositories)
   name                 = var.repositories[count.index]
   image_tag_mutability = "MUTABLE"
+  force_delete         = true
 
   image_scanning_configuration {
     scan_on_push = true
@@ -12,8 +17,8 @@ resource "aws_ecr_repository" "example" {
 variable "repositories" {
   description = "A list of ECR repository names to be created"
   type        = list(string)
-#  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default     = ["push-web"]
+  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
+  default = ["push-web"]
 }
 
 
@@ -28,8 +33,8 @@ output "repository_urls" {
 
 
 module "iam_role" {
-  source           = "../../iamroles"
-  task_role_name   = var.task_role_name
+  source         = "../../iamroles"
+  task_role_name = var.task_role_name
 }
 
 # image = aws_ecr_repository.example[1].repository_url 
@@ -38,27 +43,55 @@ module "iam_role" {
 resource "aws_ecs_task_definition" "taskdef" {
   family = var.task_family
   # container_definitions = var.container_definitions
-  container_definitions    = <<EOF
-    [
-      {
-        "name": "${var.container_name}",
-        "image": "${aws_ecr_repository.example[0].repository_url}",
-        "cpu": ${var.container_cpu},
-        "memory": ${var.container_memory},
-        "portMappings": [
-          {
-            "containerPort": ${var.container_cport},
-            "hostPort": ${var.container_hport},
-            "protocol": "${var.container_protocol}"
-          }
-        ]
-      }  
-    ]
-  EOF
-#  execution_role_arn       = aws_iam_role.role.arn
-  execution_role_arn       = module.iam_role.iam_role_arn
-  task_role_arn            = module.iam_role.iam_role_arn
-#  task_role_arn            = module.iam_role.iam_role_arn
+  container_definitions = jsonencode([{
+    name   = "${var.container_name}"
+    image  = "${aws_ecr_repository.example[0].repository_url}"
+    cpu    = "${var.container_cpu}"
+    memory = "${var.container_memory}"
+
+    portMappings = [{
+      containerPort = "${var.container_cport}"
+      hostPort      = "${var.container_hport}"
+      protocol      = "${var.container_protocol}"
+    }]
+    log_configuration = {
+      log_driver = "awslogs"
+      options = {
+        "awslogs-group"        = "${aws_cloudwatch_log_group.ecs_logs.name}"
+        "awslog-region"        = "ap-southeast-1"
+        "awslog-stream-prefix" = "ecs"
+      }
+    }
+    }
+  ])
+  # [
+  #   {
+  #     "name": "${var.container_name}",
+  #     "image": "${aws_ecr_repository.example[0].repository_url}",
+  #     "cpu": ${var.container_cpu},
+  #     "memory": ${var.container_memory},
+  #     "portMappings": [
+  #       {
+  #         "containerPort": ${var.container_cport},
+  #         "hostPort": ${var.container_hport},
+  #         "protocol": "${var.container_protocol}"
+  #       }
+  #     ],
+  #     "log_configuration": {
+  #       "log_driver": "awslogs",
+  #       "options": {
+  #         "awslogs-group": "/ecs/${var.task_family}",
+  #         "awslogs-region": "ap-southeast-1",
+  #         "awslogs-stream-prefix": "ecs"
+  #       }
+  #     }
+  #   }  
+  # ]
+
+  #  execution_role_arn       = aws_iam_role.role.arn
+  execution_role_arn = module.iam_role.iam_role_arn
+  task_role_arn      = module.iam_role.iam_role_arn
+  #  task_role_arn            = module.iam_role.iam_role_arn
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   network_mode             = var.network_mode
@@ -100,15 +133,15 @@ resource "aws_iam_role" "role" {
     ]
   })
 }
-*/ 
+*/
 resource "aws_iam_role_policy_attachment" "attach1" {
-#  role       = aws_iam_role.role.name
+  #  role       = aws_iam_role.role.name
   role       = module.iam_role.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "attach2" {
-#  role       = aws_iam_role.role.name
+  #  role       = aws_iam_role.role.name
   role       = module.iam_role.iam_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
@@ -119,8 +152,8 @@ resource "aws_ecs_service" "ecs_service" {
   depends_on                        = [var.cluster_arn]
   cluster                           = var.cluster_arn
   task_definition                   = aws_ecs_task_definition.taskdef.arn
-  desired_count                     = 2
-  health_check_grace_period_seconds = 300
+  desired_count                     = 0
+  health_check_grace_period_seconds = 0
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200

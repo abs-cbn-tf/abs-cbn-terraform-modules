@@ -242,25 +242,11 @@ variable "egress_cidr_blocks" {
 
 variable "vpc_tags" {}
 
-## Variables for SG
-# for ecs sg
-variable "ecs_sg_ingress_from" {}
-variable "ecs_sg_ingress_to" {}
-variable "ecs_sg_ingress_protocol" {}
-variable "ecs_sg_ingress_cidr" {}
-variable "ecs_sg_egress_from" {}
-variable "ecs_sg_egress_to" {}
-variable "ecs_sg_egress_protocol" {}
-variable "ecs_sg_egress_cidr" {}
-# for regular sg
-variable "web_sg_ingress_from" {}
-variable "web_sg_ingress_to" {}
-variable "web_sg_ingress_protocol" {}
-variable "web_sg_ingress_cidr" {}
-variable "web_sg_egress_from" {}
-variable "web_sg_egress_to" {}
-variable "web_sg_egress_protocol" {}
-variable "web_sg_egress_cidr" {}
+variable "ingress_rules_1" {}
+variable "ingress_rules_2" {}
+variable "egress_rules_1" {}
+variable "egress_rules_2" {}
+
 
 # cloudfront-s3
 variable "bucket_name" {

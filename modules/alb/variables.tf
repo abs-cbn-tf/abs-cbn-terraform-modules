@@ -8,7 +8,7 @@ variable "subnets" {
   type        = list(string)
 }
 
-variable "security_groups" {
+variable "ecs_security_groups" {
   description = "List of security groups associated with the ALB"
   type        = list(string)
 }

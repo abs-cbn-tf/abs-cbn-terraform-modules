@@ -47,9 +47,9 @@ module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
   source     = "./modules/ecs-alb"
   # alb
-  alb_name            = var.alb_name
-  subnets             = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
-  security_groups     = [module.push-web-ecs-service-sg.security_group_id]
+  alb_name = var.alb_name
+  subnets  = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
+  # security_groups     = [module.push-web-ecs-service-sg.security_group_id]
   ecs_security_groups = [module.push-web-sg.security_group_id]
   listener_port       = var.listener_port
   target_group_name   = var.target_group_name
@@ -89,29 +89,14 @@ module "ecs-alb" {
 module "push-web-ecs-service-sg" {
   depends_on  = [module.vpc]
   source      = "./modules/sg"
+  name        = "push-web-ecs-service-sg"
   description = "push-web-ecs-service-sg"
 
-  ingress_rules = [
-    {
-      from_port   = var.ecs_sg_ingress_from
-      to_port     = var.ecs_sg_ingress_to
-      protocol    = var.ecs_sg_ingress_protocol
-      cidr_blocks = [var.ecs_sg_ingress_cidr]
-      self        = false
-    }
-  ]
+  vpc_id = module.vpc.vpc_id
 
-  egress_rules = [
-    {
-      from_port   = var.ecs_sg_egress_from
-      to_port     = var.ecs_sg_egress_to
-      protocol    = var.ecs_sg_egress_protocol
-      cidr_blocks = [var.ecs_sg_egress_cidr]
-      self        = false
-    }
-  ]
+  ingress_rules = var.ingress_rules_1
+  egress_rules  = var.egress_rules_1
 
-  name = "push-web-ecs-service-sg"
   tags = {
     Backup               = "False"
     OwnerTeamEmail       = "mardelacruz@abs-cbn.com"
@@ -123,35 +108,18 @@ module "push-web-ecs-service-sg" {
     "abscbn-url"         = "pushweb.abs-cbn.com"
     "Name"               = "push-web-ecs-service-sg"
   }
-  vpc_id = module.vpc.vpc_id
 }
 
 module "push-web-sg" {
   depends_on  = [module.vpc]
   source      = "./modules/sg"
+  name        = "push-web-sg"
   description = "push-web-sg"
 
-  ingress_rules = [
-    {
-      from_port   = var.web_sg_ingress_from
-      to_port     = var.web_sg_ingress_to
-      protocol    = var.web_sg_ingress_protocol
-      cidr_blocks = [var.web_sg_ingress_cidr]
-      self        = false
-    }
-  ]
+  vpc_id = module.vpc.vpc_id
 
-  egress_rules = [
-    {
-      from_port   = var.web_sg_egress_from
-      to_port     = var.web_sg_egress_to
-      protocol    = var.web_sg_egress_protocol
-      cidr_blocks = [var.web_sg_egress_cidr]
-      self        = false
-    }
-  ]
-
-  name = "push-web-sg"
+  ingress_rules = var.ingress_rules_2
+  egress_rules  = var.egress_rules_2
   tags = {
     Backup               = "False"
     OwnerTeamEmail       = "mardelacruz@abs-cbn.com"
@@ -163,7 +131,6 @@ module "push-web-sg" {
     "abscbn-url"         = "pushweb.abs-cbn.com"
     "Name"               = "push-web-sg"
   }
-  vpc_id = module.vpc.vpc_id
 }
 
 module "vpc" {

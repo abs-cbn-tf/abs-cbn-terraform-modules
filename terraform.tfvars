@@ -198,9 +198,8 @@ apigw_configurations_5 = {
 # ALB VARIABLES
 listener_port     = 443
 target_group_name = "push-web-alb"
-target_group_port = 80
-# listener_cert_arn
-alb_name = "push-web-alb"
+target_group_port = 3000
+alb_name          = "push-web-alb"
 
 # ECS CLUSTER VARIABLES 
 tf_my_cluster        = "consumption"
@@ -208,19 +207,19 @@ tf_capacity_provider = "FARGATE_SPOT"
 
 #ECS SERVICE VARIABLES
 task_family    = "push-web-taskdef"
-task_cpu       = "1024"
-task_memory    = "2048"
+task_cpu       = 2048
+task_memory    = 4096
 task_role_name = "imp-taskdef-role"
 network_mode   = "awsvpc"
-ecs_lb_cport   = 80
+ecs_lb_cport   = 3000
 
 # Container Definition Variables
 container_name     = "push-web-container"
-container_image    = "nginx:latest"
-container_cpu      = 256
+container_image    = "892339339186.dkr.ecr.ap-southeast-1.amazonaws.com/push-web:latest"
+container_cpu      = 0
 container_memory   = 512
-container_cport    = 80
-container_hport    = 80
+container_cport    = 3000
+container_hport    = 3000
 container_protocol = "tcp"
 # EOF Container Definitions Variables
 requires_compatibilities = "FARGATE"
@@ -255,24 +254,43 @@ vpc_tags = {
 }
 
 ## Variables for SG
-# for ecs sg
-ecs_sg_ingress_from     = 3000
-ecs_sg_ingress_to       = 3000
-ecs_sg_ingress_protocol = "tcp"
-ecs_sg_ingress_cidr     = "0.0.0.0/0"
-ecs_sg_egress_from      = 0
-ecs_sg_egress_to        = 0
-ecs_sg_egress_protocol  = "-1"
-ecs_sg_egress_cidr      = "0.0.0.0/0"
-# for regular sg
-web_sg_ingress_from     = 443
-web_sg_ingress_to       = 443
-web_sg_ingress_protocol = "tcp"
-web_sg_ingress_cidr     = "0.0.0.0/0"
-web_sg_egress_from      = 0
-web_sg_egress_to        = 0
-web_sg_egress_protocol  = "-1"
-web_sg_egress_cidr      = "0.0.0.0/0"
+ingress_rules_1 = [{
+  from_port   = 3000
+  to_port     = 3000
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  self        = true
+}]
+egress_rules_1 = [{
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  self        = true
+}]
+ingress_rules_2 = [
+  {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    self        = true
+  },
+  {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    self        = true
+  }
+]
+egress_rules_2 = [{
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  self        = true
+}]
 
 #cloudfront-s3
 bucket_name = "cloudfront-s3-12345"

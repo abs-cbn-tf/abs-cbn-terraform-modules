@@ -12,12 +12,12 @@ variable "task_family" {
 
 variable "task_cpu" {
   description = "CPU for task"
-  type        = string
+  type        = number
 }
 
 variable "task_memory" {
   description = "Memory for task"
-  type        = string
+  type        = number
 }
 
 variable "task_role_name" {
@@ -45,19 +45,19 @@ variable "container_image" {
 }
 variable "container_cpu" {
   description = "Container CPU"
-  type        = string
+  type        = number
 }
 variable "container_memory" {
   description = "Container Memory"
-  type        = string
+  type        = number
 }
 variable "container_cport" {
   description = "Container Container Port"
-  type        = string
+  type        = number
 }
 variable "container_hport" {
   description = "Container Host Port"
-  type        = string
+  type        = number
 }
 variable "container_protocol" {
   description = "Container Protocol"
@@ -114,10 +114,10 @@ variable "subnets" {
   type        = list(string)
 }
 
-variable "security_groups" {
-  description = "List of security groups associated with the ALB"
-  type        = list(string)
-}
+# variable "security_groups" {
+#   description = "List of security groups associated with the ALB"
+#   type        = list(string)
+# }
 
 variable "ecs_security_groups" {
   description = "List of security groups associated with the ALB"
