@@ -8,10 +8,15 @@ events_function_configurations_2 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    API_PWD       = ""
+    API_USER      = ""
+    ENV_KEY       = ""
+    MONGO_DB_NAME = ""
+    MONGO_URI     = ""
+    TRENDING_API  = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
@@ -35,10 +40,31 @@ apigw_function_configurations_1 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    DB_MAX_POOL_SIZE          = ""
+    DB_SOCKET_TIMEOUT         = ""
+    IMP_IMAGE_API             = ""
+    IMP_IMAGE_API_ENT         = ""
+    IMP_IMAGE_API_PUSH        = ""
+    IVS_KEY                   = ""
+    MONGODB_ENT               = ""
+    MONGODB_PUSH              = ""
+    MONGODB_URL               = ""
+    MONGODB_URL_ENT           = ""
+    MONGODB_URL_PUSH          = ""
+    MONGO_GRAPHQL_API_KEY     = ""
+    MONGO_GRAPHQL_API_KEY_ENT = ""
+    MONGO_GRAPHQL_URL         = ""
+    MONGO_GRAPHQL_URL_ENT     = ""
+    NODE_ENV                  = ""
+    PUBLISH_DATE              = ""
+    SP_ID                     = ""
+    WEB_ENT_URL               = ""
+    WEB_PUSH_URL              = ""
+    WEB_URL                   = ""
+    WIDGET_ID                 = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
@@ -61,10 +87,13 @@ apigw_function_configurations_2 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    DB_MAX_POOL_SIZE  = ""
+    DB_SOCKET_TIMEOUT = ""
+    MONGODB_URL       = ""
+    NODE_ENV          = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
@@ -87,10 +116,27 @@ apigw_function_configurations_3 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    CMS_BASE_URL                = ""
+    CMS_PWD                     = ""
+    CMS_USER                    = ""
+    DB_MAX_POOL_SIZE            = ""
+    DB_SOCKET_TIMEOUT           = ""
+    HEADER_TIMEOUT              = ""
+    KEEP_ALIVE_TIMEOUT          = ""
+    MONGODB_URL                 = ""
+    MONGO_GRAPHQL_API_KEY       = ""
+    MONGO_GRAPHQL_URL           = ""
+    NODE_ENV                    = ""
+    WB_ARTICLE_CONTENT_TEMPLATE = ""
+    WB_ARTICLE_PROFILE          = ""
+    WB_DESK                     = ""
+    WB_DRAFT_STAGE              = ""
+    WB_FOR_REVISION_STAGE       = ""
+    WB_PUSH_DESK                = ""
+    WB_READY_FOR_REVIEW_STAGE   = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
@@ -113,10 +159,11 @@ apigw_function_configurations_4 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    BUCKET_NAME   = ""
+    IMAGE_SERVICE = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
@@ -139,10 +186,11 @@ apigw_function_configurations_5 = {
   handler       = "index.handler"
   memory        = 128
   env_var = {
-    test = "test"
+    BUCKET     = ""
+    BUCKET_ENT = ""
   }
   my_lambda_tags = {
-    App         = "Push"
+    App         = "News"
     Environment = "Demo"
   }
 }
