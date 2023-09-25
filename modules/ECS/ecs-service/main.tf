@@ -17,8 +17,7 @@ resource "aws_ecr_repository" "example" {
 variable "repositories" {
   description = "A list of ECR repository names to be created"
   type        = list(string)
-  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default = ["push-web"]
+  default     = ["news-web"]
 }
 
 

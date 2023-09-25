@@ -42,13 +42,13 @@ module "lambda_1" {
   function_configurations = var.function_configurations_1
 }
 module "ecs-alb" {
-  depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
+  depends_on = [module.vpc, module.news-web-sg, module.news-web-ecs-service-sg]
   source     = "./modules/ecs-alb"
   # alb
   alb_name = var.alb_name
   subnets  = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
   # security_groups     = [module.push-web-ecs-service-sg.security_group_id]
-  ecs_security_groups = [module.push-web-sg.security_group_id]
+  ecs_security_groups = [module.news-web-sg.security_group_id]
   listener_port       = var.listener_port
   target_group_name   = var.target_group_name
   target_group_port   = var.target_group_port
@@ -84,11 +84,11 @@ module "ecs-alb" {
   ecs_lb_cport      = var.ecs_lb_cport
 
 }
-module "push-web-ecs-service-sg" {
+module "news-web-ecs-service-sg" {
   depends_on  = [module.vpc]
   source      = "./modules/sg"
-  name        = "push-web-ecs-service-sg"
-  description = "push-web-ecs-service-sg"
+  name        = "news-web-ecs-service-sg"
+  description = "news-web-ecs-service-sg"
 
   vpc_id = module.vpc.vpc_id
 
@@ -108,11 +108,11 @@ module "push-web-ecs-service-sg" {
   }
 }
 
-module "push-web-sg" {
+module "news-web-sg" {
   depends_on  = [module.vpc]
   source      = "./modules/sg"
-  name        = "push-web-sg"
-  description = "push-web-sg"
+  name        = "news-web-sg"
+  description = "news-web-sg"
 
   vpc_id = module.vpc.vpc_id
 
