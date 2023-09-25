@@ -1,4 +1,5 @@
 variable "aws_region" {}
+variable "profile" {}
 
 # FOR LAMBDAS WITH EVENTS TRIGGER
 variable "events_function_configurations_1" {

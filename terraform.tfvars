@@ -1,4 +1,5 @@
 aws_region = "ap-southeast-1"
+profile    = "default"
 # FOR LAMBDAS WITH EVENTS TRIGGER
 events_function_configurations_1 = {
   function_name = "ChangeECSFromSI2ODPricing"
@@ -300,7 +301,7 @@ tags = {
 }
 
 ####opensearch
-aws_account_id="996478355195"
-cluster_name = "dev-cluster"
-instance_type = "m3.medium.search"
+aws_account_id = "996478355195"
+cluster_name   = "dev-cluster"
+instance_type  = "m3.medium.search"
 
