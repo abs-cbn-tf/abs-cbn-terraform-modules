@@ -1,11 +1,7 @@
 resource "aws_cloudwatch_event_rule" "example_rule" {
-  name           = var.eventbridge_configuration.name
-  description    = var.eventbridge_configuration.description
-  event_bus_name = var.eventbridge_configuration.event_bus_name
-
-  # schedule_expression = var.eventbridge_configuration.scheduled_expression
-  # event_pattern       = var.eventbridge_configuration.event_pattern
-
+  name                = var.eventbridge_configuration.name
+  description         = var.eventbridge_configuration.description
+  event_bus_name      = var.eventbridge_configuration.event_bus_name
   event_pattern       = var.eventbridge_configuration.event_pattern
   schedule_expression = var.eventbridge_configuration.scheduled_expression
 }
