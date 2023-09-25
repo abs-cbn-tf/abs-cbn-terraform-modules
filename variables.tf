@@ -2,29 +2,6 @@ variable "aws_region" {}
 variable "profile" {}
 
 # FOR LAMBDAS WITH EVENTS TRIGGER
-variable "events_function_configurations_1" {
-  description = "Map of Lambda function configurations"
-  type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
-  })
-}
-variable "eventbridge_configuration_1" {
-  description = "List of cloudwatch events configurations"
-  type = object({
-    name                 = string
-    description          = string
-    event_bus_name       = string
-    scheduled_expression = string
-    event_pattern        = string
-  })
-}
-
 variable "events_function_configurations_2" {
   description = "Map of Lambda function configurations"
   type = object({
@@ -174,6 +151,20 @@ variable "apigw_configurations_5" {
   })
 }
 
+# SPECIFICALLY FOR "imp-syndicate-service"
+variable "function_configurations_1" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
 # ALB VARIABLES
 /*
 variable "vpc_id" {
@@ -248,15 +239,4 @@ variable "ingress_rules_2" {}
 variable "egress_rules_1" {}
 variable "egress_rules_2" {}
 
-
-# cloudfront-s3
-variable "bucket_name" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
-
-variable "tags" {
-  description = "The tags to assign to the S3 bucket"
-  type        = map(string)
-}
 

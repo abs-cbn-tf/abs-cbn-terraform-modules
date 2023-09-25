@@ -1,45 +1,6 @@
 aws_region = "ap-southeast-1"
 profile    = "default"
 # FOR LAMBDAS WITH EVENTS TRIGGER
-events_function_configurations_1 = {
-  function_name = "ChangeECSFromSI2ODPricing"
-  iam_role_name = "ChangeECSFromSI2ODPricing-role"
-  runtime       = "nodejs18.x"
-  handler       = "index.handler"
-  memory        = 128
-  env_var = {
-
-  }
-  my_lambda_tags = {
-    Backup             = "False"
-    OwnerTeamEmail     = "mardelacruz@abs-cbn.com"
-    abscbn-bus-unit    = "DCT"
-    abscbn-cost-centre = 61250
-    abscbn-criticality = "Silver"
-    abscbn-env         = "Prod"
-    abscbn-product     = "entertainment"
-    abscbn-url         = "abs-cbn.com"
-  }
-}
-
-eventbridge_configuration_1 = {
-  #event 1
-  name                 = "SpotContainerNotStartedRule"
-  description          = ""
-  event_bus_name       = "default"
-  scheduled_expression = ""
-  event_pattern        = <<PATTERN
-    {
-      "source": ["aws.ecs"],
-      "detail-type": ["ECS Deployment State Change"],
-      "detail": {
-        "eventName": ["SERVICE_TASK_PLACEMENT_FAILURE"],
-        "clusterArn": ["arn:aws:ecs:ap-southeast-1:807238331692:cluster/consumption"],
-        "reason": ["RESOURCE:FARGATE"]
-      }
-    }
-    PATTERN
-}
 events_function_configurations_2 = {
   function_name = "imp-trending-data-service"
   iam_role_name = "imp-trending-data-service-role"
@@ -196,6 +157,27 @@ apigw_configurations_5 = {
   usage_plan    = "image-plan"
 }
 
+function_configurations_1 = {
+  function_name = "imp-syndicate-service"
+  iam_role_name = "imp-syndicate-service-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    ACCESS_TOKEN  = ""
+    BASE_URL      = ""
+    BRAND         = ""
+    CLIENT_SECRET = ""
+    CLIENT_TOKEN  = ""
+    HOST          = ""
+    WEB_URL       = ""
+  }
+  my_lambda_tags = {
+    App         = "News"
+    Environment = "Prod"
+  }
+}
+
 # ALB VARIABLES
 listener_port     = 443
 target_group_name = "push-web-alb"
@@ -293,15 +275,4 @@ egress_rules_2 = [{
   self        = true
 }]
 
-#cloudfront-s3
-bucket_name = "cloudfront-s3-12345"
-tags = {
-  key1 = "value1"
-  key2 = "value2"
-}
-
-####opensearch
-aws_account_id = "996478355195"
-cluster_name   = "dev-cluster"
-instance_type  = "m3.medium.search"
 

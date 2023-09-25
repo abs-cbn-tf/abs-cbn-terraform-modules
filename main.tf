@@ -1,11 +1,4 @@
 # MODULES FOR LAMBDAS WITH EVENTS TRIGGER
-module "eventbridge-lambda-1" {
-  source                    = "./modules/eventbridge-lambda"
-  aws_region                = var.aws_region
-  function_configurations   = var.events_function_configurations_1
-  eventbridge_configuration = var.eventbridge_configuration_1
-}
-
 module "eventbridge-lambda-2" {
   source                    = "./modules/eventbridge-lambda"
   aws_region                = var.aws_region
@@ -42,6 +35,11 @@ module "apigw-lambda-5" {
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_5
   apigw_configurations    = var.apigw_configurations_5
+}
+module "lambda_1" {
+  source                  = "./modules/lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.function_configurations_1
 }
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
@@ -153,58 +151,3 @@ module "vpc" {
 
   vpc_tags = var.vpc_tags
 }
-
-module "cloudfront-s3" {
-  source      = "./modules/cloudfront-s3"
-  bucket_name = var.bucket_name
-  tags        = var.tags
-}
-
-
-module "opensearch_dev" {
-  source = "./modules/opensearch"
-
-  cluster_name    = var.cluster_name
-  instance_type   = var.instance_type
-  access_policies = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "es.amazonaws.com"
-      },
-      "Action": "es:*",
-      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/your-cluster-name/*"
-    }
-  ]
-}
-POLICY
-}
-
-
-
-
-module "opensearch_prod" {
-  source = "./modules/opensearch"
-
-  cluster_name    = "prod-cluster"
-  instance_type   = "t2.small.search"
-  access_policies = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "es.amazonaws.com"
-      },
-      "Action": "es:*",
-      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/prod-cluster/*"
-    }
-  ]
-}
-POLICY
-}
-
