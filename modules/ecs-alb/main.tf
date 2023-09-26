@@ -7,12 +7,14 @@ module "alb" {
   target_group_name   = var.target_group_name
   target_group_port   = var.target_group_port
   vpc_id              = var.vpc_id
+  tags = var.tags
 }
 
 module "ecs-cluster" {
   source               = "../ECS/ecs-cluster"
   tf_capacity_provider = var.tf_capacity_provider
   tf_my_cluster        = var.tf_my_cluster
+  tags = var.tags
 }
 
 module "ecs-service" {
@@ -47,4 +49,5 @@ module "ecs-service" {
   cluster_arn  = module.ecs-cluster.cluster_arn
   alb_tg_arn   = module.alb.target_group_arn
   ecs_lb_cport = var.ecs_lb_cport
+  tags = var.tags
 }

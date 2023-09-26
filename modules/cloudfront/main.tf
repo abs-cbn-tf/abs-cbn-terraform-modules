@@ -8,6 +8,11 @@ variable "origin_id" {
   type        = string
 }
 
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
 
 resource "random_id" "oac_id" {
   byte_length = 8
@@ -28,7 +33,7 @@ resource "aws_cloudfront_distribution" "site_access" {
 
   enabled             = true
   default_root_object = "index.html"
-
+  tags = var.tags
   # Rest of the CloudFront configuration...
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD"]

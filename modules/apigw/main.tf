@@ -64,6 +64,7 @@ resource "aws_api_gateway_stage" "example" {
   deployment_id = aws_api_gateway_deployment.my_deployment.id
   rest_api_id   = aws_api_gateway_rest_api.my_rest_api.id
   stage_name    = var.apigw_configurations.stage_name
+   tags = var.tags
 }
 
 # Create the permission to invoke the Lambda function

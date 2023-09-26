@@ -157,7 +157,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
-
+  tags = var.tags
   load_balancer {
     target_group_arn = var.alb_tg_arn #put arn here from output
     container_name   = var.container_name

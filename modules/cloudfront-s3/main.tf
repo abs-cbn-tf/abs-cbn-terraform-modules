@@ -10,6 +10,7 @@ module "cloudfront" {
   source             = "../cloudfront"
   origin_domain_name = module.s3.bucket_domain_name
   origin_id          = module.s3.bucket_id
+  tags = var.tags
 }
 
 output "bucket_id" {

@@ -5,6 +5,7 @@ resource "aws_opensearch_domain" "example" {
     instance_type = var.instance_type
   }
   access_policies = var.access_policies
+  tags = var.tags
 }
 
 resource "aws_iam_role" "opensearch_role" {
@@ -29,10 +30,10 @@ resource "aws_iam_policy_attachment" "opensearch_policy_attachment" {
   roles      = [aws_iam_role.opensearch_role.name]
 }
 
-resource "aws_iam_instance_profile" "opensearch_instance_profile" {
+/* resource "aws_iam_instance_profile" "opensearch_instance_profile" {
   name = "opensearch_instance_profile"
   role = aws_iam_role.opensearch_role.name
-}
+} */
 
 output "cluster_endpoint" {
   value = aws_opensearch_domain.example.endpoint

@@ -260,3 +260,61 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "cluster_name" {}
+variable "instance_type" {} 
+variable "aws_account_id" {}
+
+
+variable "global_tags" {
+  description = "Global tags for all resources"
+  type        = map(string)
+  default     = {
+    g1 = "v1"
+    g2 = "v2"
+  }
+}
+
+variable "individual_tags" {
+  description = "Individual tags for specific modules"
+  type        = map(map(string))
+  default     = {
+    eventbridge_lambda = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    apigw-lambda-1 = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    ecs_alb = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    opensearch_dev = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    opensearch_prod = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    eventbridge-lambda-1 = {
+     k1 = "v1"
+     k2 = "v2"
+    }
+    cloudfront_s3 = {
+     k1 = "v1"
+     k2 = "v2"
+    }
+    push-web-ecs-service-sg = {
+     k1 = "v1"
+     k2 = "v2"
+    }
+    push-web-sg = {
+     k1 = "v1"
+     k2 = "v2"
+    }
+    // Add more individual tags for other modules as needed
+  }
+}
+

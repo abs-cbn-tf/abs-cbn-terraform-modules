@@ -1,5 +1,6 @@
 resource "aws_ecs_cluster" "my_cluster" {
   name = var.tf_my_cluster
+  tags = var.tags
 }
 
 resource "aws_ecs_cluster_capacity_providers" "my_cluster" {

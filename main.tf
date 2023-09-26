@@ -18,6 +18,7 @@ module "apigw-lambda-1" {
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_1
   apigw_configurations    = var.apigw_configurations_1
+  tags = merge(var.global_tags, var.individual_tags.apigw-lambda-1)
 }
 module "apigw-lambda-2" {
   source                  = "./modules/apigw-lambda"
@@ -84,6 +85,7 @@ module "ecs-alb" {
   service_name      = var.service_name
   service_role_name = var.service_role_name
   ecs_lb_cport      = var.ecs_lb_cport
+  tags = merge(var.global_tags, var.individual_tags.ecs_alb)
 
 }
 module "push-web-ecs-service-sg" {
@@ -97,17 +99,7 @@ module "push-web-ecs-service-sg" {
   ingress_rules = var.ingress_rules_1
   egress_rules  = var.egress_rules_1
 
-  tags = {
-    Backup               = "False"
-    OwnerTeamEmail       = "mardelacruz@abs-cbn.com"
-    "abscbn-bus-unit"    = "DCT"
-    "abscbn-cost-centre" = "61250"
-    "abscbn-criticality" = "Silver"
-    "abscbn-env"         = "prod"
-    "abscbn-product"     = "ent"
-    "abscbn-url"         = "pushweb.abs-cbn.com"
-    "Name"               = "push-web-ecs-service-sg"
-  }
+  tags = merge(var.global_tags, var.individual_tags.push-web-ecs-service-sg)
 }
 
 module "push-web-sg" {
@@ -120,17 +112,7 @@ module "push-web-sg" {
 
   ingress_rules = var.ingress_rules_2
   egress_rules  = var.egress_rules_2
-  tags = {
-    Backup               = "False"
-    OwnerTeamEmail       = "mardelacruz@abs-cbn.com"
-    "abscbn-bus-unit"    = "DCT"
-    "abscbn-cost-centre" = "61250"
-    "abscbn-criticality" = "Silver"
-    "abscbn-env"         = "prod"
-    "abscbn-product"     = "ent"
-    "abscbn-url"         = "pushweb.abs-cbn.com"
-    "Name"               = "push-web-sg"
-  }
+  tags = merge(var.global_tags, var.individual_tags.push-web-sg)
 }
 
 module "vpc" {
@@ -157,13 +139,13 @@ module "vpc" {
 module "cloudfront-s3" {
   source      = "./modules/cloudfront-s3"
   bucket_name = var.bucket_name
-  tags        = var.tags
+  tags        = merge(var.global_tags, var.individual_tags.cloudfront_s3)
 }
 
 
 module "opensearch_dev" {
   source = "./modules/opensearch"
-
+  tags = merge(var.global_tags, var.individual_tags.opensearch_dev)
   cluster_name    = var.cluster_name
   instance_type   = var.instance_type
   access_policies = <<POLICY
@@ -188,7 +170,7 @@ POLICY
 
 module "opensearch_prod" {
   source = "./modules/opensearch"
-
+  tags = merge(var.global_tags, var.individual_tags.opensearch_prod)
   cluster_name    = "prod-cluster"
   instance_type   = "t2.small.search"
   access_policies = <<POLICY

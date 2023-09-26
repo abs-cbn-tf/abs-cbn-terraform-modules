@@ -6,7 +6,7 @@ terraform {
     encrypt                 = true
     dynamodb_table          = "terraform-lock"
     shared_credentials_file = "~/.aws/credentials"
-    profile                 = var.profile
+#    profile                 = var.profile
   }
 }
 

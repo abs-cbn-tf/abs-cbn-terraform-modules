@@ -2,6 +2,7 @@ module "lambda_function" {
   source                  = "../lambda" # Mandatory
   aws_region              = var.aws_region
   function_configurations = var.function_configurations
+   tags                    = var.tags
 }
 
 module "apigw" {
@@ -11,5 +12,6 @@ module "apigw" {
 
   apigw_lambda_invoke_arn = module.lambda_function.invoke_arn
   apigw_function_name     = module.lambda_function.name
+   tags                    = var.tags
 }
 

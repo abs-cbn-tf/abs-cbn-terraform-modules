@@ -3,6 +3,7 @@ resource "aws_lb" "alb-example" {
   load_balancer_type = "application"
   security_groups    = var.ecs_security_groups
   subnets            = var.subnets
+  tags = var.tags
 }
 resource "aws_lb_target_group" "alb-example" {
   name             = var.target_group_name

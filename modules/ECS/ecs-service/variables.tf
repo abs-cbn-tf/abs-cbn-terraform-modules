@@ -106,3 +106,10 @@ variable "alb_tg_arn" {
 variable "cluster_arn" {
   type = string
 }
+
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
+}
+
