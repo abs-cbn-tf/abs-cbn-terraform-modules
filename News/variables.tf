@@ -261,14 +261,14 @@ variable "tags" {
 }
 
 variable "cluster_name" {}
-variable "instance_type" {} 
+variable "instance_type" {}
 variable "aws_account_id" {}
 
 
 variable "global_tags" {
   description = "Global tags for all resources"
   type        = map(string)
-  default     = {
+  default = {
     g1 = "v1"
     g2 = "v2"
   }
@@ -277,7 +277,7 @@ variable "global_tags" {
 variable "individual_tags" {
   description = "Individual tags for specific modules"
   type        = map(map(string))
-  default     = {
+  default = {
     eventbridge_lambda = {
       k1 = "v1"
       k2 = "v2"
@@ -299,22 +299,28 @@ variable "individual_tags" {
       k2 = "v2"
     }
     eventbridge-lambda-1 = {
-     k1 = "v1"
-     k2 = "v2"
+      k1 = "v1"
+      k2 = "v2"
     }
     cloudfront_s3 = {
-     k1 = "v1"
-     k2 = "v2"
+      k1 = "v1"
+      k2 = "v2"
     }
     push-web-ecs-service-sg = {
-     k1 = "v1"
-     k2 = "v2"
+      k1 = "v1"
+      k2 = "v2"
     }
     push-web-sg = {
-     k1 = "v1"
-     k2 = "v2"
+      k1 = "v1"
+      k2 = "v2"
     }
     // Add more individual tags for other modules as needed
   }
 }
 
+variable "repositories" {
+  description = "A list of ECR repository names to be created"
+  type        = list(string)
+  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
+  default = ["push-web"]
+}

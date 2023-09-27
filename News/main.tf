@@ -1,11 +1,4 @@
 # MODULES FOR LAMBDAS WITH EVENTS TRIGGER
-module "eventbridge-lambda-1" {
-  source                    = "../modules/eventbridge-lambda"
-  aws_region                = var.aws_region
-  function_configurations   = var.events_function_configurations_1
-  eventbridge_configuration = var.eventbridge_configuration_1
-}
-
 module "eventbridge-lambda-2" {
   source                    = "../modules/eventbridge-lambda"
   aws_region                = var.aws_region
@@ -86,7 +79,7 @@ module "ecs-alb" {
   service_role_name = var.service_role_name
   ecs_lb_cport      = var.ecs_lb_cport
   tags              = merge(var.global_tags, var.individual_tags.ecs_alb)
-
+  repositories      = var.repositories
 }
 module "push-web-ecs-service-sg" {
   depends_on  = [module.vpc]
