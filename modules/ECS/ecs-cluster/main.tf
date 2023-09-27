@@ -15,17 +15,4 @@ resource "aws_ecs_cluster_capacity_providers" "my_cluster" {
   }
 }
 
-resource "aws_ecr_repository" "example" {
-  name                 = "my-app-repository" # Name of the repository
-  image_tag_mutability = "MUTABLE"           # Or "IMMUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = false # Enables image scanning on push
-  }
-}
-
-
-output "repository_url" {
-  value = aws_ecr_repository.example.repository_url
-}
 
