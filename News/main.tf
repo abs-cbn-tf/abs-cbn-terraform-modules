@@ -37,6 +37,11 @@ module "apigw-lambda-5" {
   function_configurations = var.apigw_function_configurations_5
   apigw_configurations    = var.apigw_configurations_5
 }
+module "function_1" {
+  source                  = "../modules/lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.function_configurations_1
+}
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
   source     = "../modules/ecs-alb"
@@ -84,8 +89,8 @@ module "ecs-alb" {
 module "push-web-ecs-service-sg" {
   depends_on  = [module.vpc]
   source      = "../modules/sg"
-  name        = "push-web-ecs-service-sg"
-  description = "push-web-ecs-service-sg"
+  name        = "news-web-ecs-service-sg"
+  description = "news-web-ecs-service-sg"
 
   vpc_id = module.vpc.vpc_id
 
@@ -98,8 +103,8 @@ module "push-web-ecs-service-sg" {
 module "push-web-sg" {
   depends_on  = [module.vpc]
   source      = "../modules/sg"
-  name        = "push-web-sg"
-  description = "push-web-sg"
+  name        = "news-web-sg"
+  description = "news-web-sg"
 
   vpc_id = module.vpc.vpc_id
 
