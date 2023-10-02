@@ -16,3 +16,11 @@ variable "target_id" {
 variable "target_arn" {
   type = string
 }
+
+
+variable "tags" {
+  description = "A map of tags to assign to the S3 bucket"
+  type        = map(string)
+  default     = {}  # By default, it's an empty map (no tags). You can change this if needed.
+}
+

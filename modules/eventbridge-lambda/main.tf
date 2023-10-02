@@ -10,4 +10,5 @@ module "eventbridge" {
 
   target_id  = module.lambda.name
   target_arn = module.lambda.arn
+  tags = var.tags
 }

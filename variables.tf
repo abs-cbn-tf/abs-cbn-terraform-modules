@@ -264,6 +264,53 @@ variable "cluster_name" {}
 variable "instance_type" {} 
 variable "aws_account_id" {}
 
+variable "instance1_config" {
+  description = "Configuration for instance1"
+  type = object({
+    instance_name : string
+    ami_id        : string
+    instance_type : string
+    key_name      : string
+    subnet_id     : string
+    tags          : map(string)
+  })
+  default = {
+    instance_name = "instance1"
+    ami_id        = "ami-0eeadc4ab092fef70"
+    instance_type = "t2.micro"
+    key_name      = "test"
+    subnet_id     = "subnet-0123456789abcdef0"
+    tags = {
+      Name        = "DefaultInstanceName",
+      Environment = "DefaultEnvironment",
+      project     = "DefaultProject"
+    }
+  }
+}
+
+variable "instance2_config" {
+  description = "Configuration for instance2"
+  type = object({
+    instance_name : string
+    ami_id        : string
+    instance_type : string
+    key_name      : string
+    subnet_id     : string
+    tags          : map(string)
+  })
+  default = {
+    instance_name = "instance2"
+    ami_id        = "ami-0eeadc4ab092fef70"
+    instance_type = "t2.micro"
+    key_name      = "test"
+    subnet_id     = "subnet-0123456789abcdef0"
+    tags = {
+      Name        = "DefaultInstanceName",
+      Environment = "DefaultEnvironment",
+      project     = "DefaultProject"
+    }
+  }
+}
 
 variable "global_tags" {
   description = "Global tags for all resources"
@@ -314,6 +361,18 @@ variable "individual_tags" {
      k1 = "v1"
      k2 = "v2"
     }
+    s3_module = {
+     k1 = "v1"
+     k2 = "v2"
+    } 
+    eventbridge-lambda-1 = {
+     k1 = "v1"
+     k2 = "v2"
+    }
+    ec2_instance1 = {
+    k1 = "v1"
+    k2 = "v2"
+    } 
     // Add more individual tags for other modules as needed
   }
 }
