@@ -195,7 +195,7 @@ variable "ecs_lb_cport" {}
 
 # Container Definition Variables
 variable "container_name" {}
-variable "container_image" {}
+# variable "container_image" {}
 variable "container_cpu" {}
 variable "container_memory" {}
 variable "container_cport" {}
@@ -250,7 +250,7 @@ variable "global_tags" {
   type        = map(string)
   default = {
     g1 = "v1"
-    g2 = "v2"
+    k2 = "v2"
   }
 }
 
@@ -258,15 +258,35 @@ variable "individual_tags" {
   description = "Individual tags for specific modules"
   type        = map(map(string))
   default = {
-    eventbridge_lambda = {
+    ecs-alb = {
       k1 = "v1"
       k2 = "v2"
+    }
+    function_1 = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    eventbridge-lambda-2 = {
+      k1 = "v1"
+      k2 = "v3"
     }
     apigw-lambda-1 = {
       k1 = "v1"
       k2 = "v2"
     }
-    ecs_alb = {
+    apigw-lambda-2 = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    apigw-lambda-3 = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    apigw-lambda-4 = {
+      k1 = "v1"
+      k2 = "v2"
+    }
+    apigw-lambda-5 = {
       k1 = "v1"
       k2 = "v2"
     }
@@ -275,10 +295,6 @@ variable "individual_tags" {
       k2 = "v2"
     }
     opensearch_prod = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    eventbridge-lambda-1 = {
       k1 = "v1"
       k2 = "v2"
     }
@@ -300,7 +316,7 @@ variable "individual_tags" {
 
 variable "repositories" {
   description = "A list of ECR repository names to be created"
-  type        = list(string)
+  type        = string
   #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default = ["push-web"]
+  default = "push-web"
 }

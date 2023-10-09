@@ -73,7 +73,6 @@ resource "aws_iam_role_policy_attachment" "attach2" {
 # ECS Service
 resource "aws_ecs_service" "ecs_service" {
   name                              = var.service_name
-  depends_on                        = [var.cluster_arn]
   cluster                           = var.cluster_arn
   task_definition                   = aws_ecs_task_definition.taskdef.arn
   desired_count                     = 2

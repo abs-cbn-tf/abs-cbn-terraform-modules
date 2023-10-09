@@ -3,8 +3,9 @@ resource "aws_cloudwatch_log_group" "ecs_logs" {
   retention_in_days = 30                        # Adjust the retention period as needed
 }
 resource "aws_ecr_repository" "example" {
-  count                = length(var.repositories)
-  name                 = var.repositories[count.index]
+  # count                = length(var.repositories)
+  # name                 = var.repositories[count.index]
+  name                 = var.repositories
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 
@@ -12,11 +13,6 @@ resource "aws_ecr_repository" "example" {
     scan_on_push = true
   }
 }
-
-output "repository_urls" {
-  value = aws_ecr_repository.example[*].repository_url
-}
-
 #variable "task_role_name" {
 #  description = "Name for the IAM role that the ECS task will assume"
 #  type        = string
@@ -36,7 +32,7 @@ resource "aws_ecs_task_definition" "taskdef" {
   # container_definitions = var.container_definitions
   container_definitions = jsonencode([{
     name   = "${var.container_name}"
-    image  = "${aws_ecr_repository.example[0].repository_url}"
+    image  = "${aws_ecr_repository.example.repository_url}:latest"
     cpu    = "${var.container_cpu}"
     memory = "${var.container_memory}"
 
@@ -140,7 +136,6 @@ resource "aws_iam_role_policy_attachment" "attach2" {
 # ECS Service
 resource "aws_ecs_service" "ecs_service" {
   name                              = var.service_name
-  depends_on                        = [var.cluster_arn]
   cluster                           = var.cluster_arn
   task_definition                   = aws_ecs_task_definition.taskdef.arn
   desired_count                     = 0

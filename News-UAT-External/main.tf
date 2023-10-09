@@ -4,7 +4,6 @@ module "eventbridge-lambda-1" {
   aws_region                = var.aws_region
   function_configurations   = var.events_function_configurations_1
   eventbridge_configuration = var.eventbridge_configuration_1
-  tags                = merge(var.global_tags, var.individual_tags.eventbridge-lambda-1)
 }
 
 module "eventbridge-lambda-2" {
@@ -190,56 +189,4 @@ module "opensearch_prod" {
 }
 POLICY
 }
-
-
-module "s3_module" {
-  source            = "./modules/s3/s3-module" # Adjust the path accordingly
-  bucket_name       = "my-unique-bucket-name124"
-  tags              = merge(var.global_tags, var.individual_tags.s3_module)
-  # ... any other necessary variables ...
-}
-
-
-/* data "aws_acm_certificate" "selected" {
-  domain      = "example.com"
-  key_types   = ["RSA_2048"]
-  types       = ["AMAZON_ISSUED"]
-  most_recent = true
-  statuses    = ["ISSUED"]
-
-  tags = {
-    Environment = "production"
-  }
-} */
-
-
-/* data "aws_acm_certificate" "selected" {
-  subject_alternative_names = ["sub1.example.com", "sub2.example.com"]
-  most_recent               = true
-  statuses                  = ["ISSUED"]
-} */
-
-
-
-
-module "ec2_instance1" {
-  source = "./modules/ec2"
-  instance_name = var.instance1_config.instance_name
-  ami_id        = var.instance1_config.ami_id
-  instance_type = var.instance1_config.instance_type
-  key_name      = var.instance1_config.key_name
-  subnet_id     = module.vpc.public_subnet_az1_id
-  tags          = merge(var.global_tags, var.individual_tags.ec2_instance1)
-}
-
-module "ec2_instance2" {
-  source = "./modules/ec2"
-  instance_name = var.instance2_config.instance_name
-  ami_id        = var.instance2_config.ami_id
-  instance_type = var.instance2_config.instance_type
-  key_name      = var.instance2_config.key_name
-  subnet_id     = module.vpc.public_subnet_az1_id
-  tags          = merge(var.global_tags, var.individual_tags.ec2_instance1)
-}
-
 

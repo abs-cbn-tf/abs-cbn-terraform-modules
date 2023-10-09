@@ -245,8 +245,8 @@ network_mode   = "awsvpc"
 ecs_lb_cport   = 3000
 
 # Container Definition Variables
-container_name     = "news-web-container"
-container_image    = "892339339186.dkr.ecr.ap-southeast-1.amazonaws.com/news-web:latest"
+container_name = "news-web-container"
+# container_image    = "892339339186.dkr.ecr.ap-southeast-1.amazonaws.com/news-web:latest"
 container_cpu      = 0
 container_memory   = 512
 container_cport    = 3000
@@ -260,7 +260,7 @@ cpu_architecture         = "X86_64"
 # Variables for the service
 service_name      = "news-ecs-web-service"
 service_role_name = "IMP-service-role"
-repositories      = ["news-web"]
+repositories      = "news-web"
 
 # variables for vpc
 project_name                 = "news-consumption"

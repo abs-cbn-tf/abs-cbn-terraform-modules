@@ -28,8 +28,7 @@ variable "eventbridge_configuration" {
 }
 
 variable "tags" {
-  description = "A map of tags to assign to the S3 bucket"
+  description = "A map of tags to add to all resources"
   type        = map(string)
-  default     = {}  # By default, it's an empty map (no tags). You can change this if needed.
+  default     = {}
 }
-

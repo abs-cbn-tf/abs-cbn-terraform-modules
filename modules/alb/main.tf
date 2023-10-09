@@ -3,7 +3,7 @@ resource "aws_lb" "alb-example" {
   load_balancer_type = "application"
   security_groups    = var.ecs_security_groups
   subnets            = var.subnets
-  tags = var.tags
+  tags               = var.tags
 }
 resource "aws_lb_target_group" "alb-example" {
   name             = var.target_group_name
@@ -25,6 +25,19 @@ resource "aws_lb_target_group" "alb-example" {
   }
 }
 
+data "aws_acm_certificate" "existing" {
+
+  domain = "*.abs-cbn.com"
+
+  most_recent = true
+
+
+
+  statuses = ["ISSUED"]
+
+}
+
+
 resource "aws_lb_listener" "alb-example" {
   load_balancer_arn = aws_lb.alb-example.arn
   port              = var.listener_port
@@ -34,6 +47,6 @@ resource "aws_lb_listener" "alb-example" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.alb-example.arn
   }
-  certificate_arn = "arn:aws:acm:ap-southeast-1:892339339186:certificate/43e748ed-311b-4559-9b9a-ae69de43ae13"
+  certificate_arn = data.aws_acm_certificate.existing.arn
 }
 

@@ -4,6 +4,8 @@ module "eventbridge-lambda-2" {
   aws_region                = var.aws_region
   function_configurations   = var.events_function_configurations_2
   eventbridge_configuration = var.eventbridge_configuration_2
+  tags                      = merge(var.global_tags, var.individual_tags.eventbridge-lambda-2)
+
 }
 # MODULES FOR LAMBDAS WITH APIGW TRIGGER
 module "apigw-lambda-1" {
@@ -18,29 +20,34 @@ module "apigw-lambda-2" {
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_2
   apigw_configurations    = var.apigw_configurations_2
+  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-2)
 }
 module "apigw-lambda-3" {
   source                  = "../modules/apigw-lambda"
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_3
   apigw_configurations    = var.apigw_configurations_3
+  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-3)
 }
 module "apigw-lambda-4" {
   source                  = "../modules/apigw-lambda"
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_4
   apigw_configurations    = var.apigw_configurations_4
+  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-4)
 }
 module "apigw-lambda-5" {
   source                  = "../modules/apigw-lambda"
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_5
   apigw_configurations    = var.apigw_configurations_5
+  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-5)
 }
 module "function_1" {
   source                  = "../modules/lambda"
   aws_region              = var.aws_region
   function_configurations = var.function_configurations_1
+  tags                    = merge(var.global_tags, var.individual_tags.function_1)
 }
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
@@ -67,8 +74,8 @@ module "ecs-alb" {
   network_mode   = var.network_mode
 
   # container_definitions = var.container_definitions
-  container_name     = var.container_name
-  container_image    = var.container_image
+  container_name = var.container_name
+  # container_image    = var.container_image
   container_cpu      = var.container_cpu
   container_memory   = var.container_memory
   container_cport    = var.container_cport
@@ -83,7 +90,7 @@ module "ecs-alb" {
   service_name      = var.service_name
   service_role_name = var.service_role_name
   ecs_lb_cport      = var.ecs_lb_cport
-  tags              = merge(var.global_tags, var.individual_tags.ecs_alb)
+  tags              = merge(var.global_tags, var.individual_tags.ecs-alb)
   repositories      = var.repositories
 }
 module "push-web-ecs-service-sg" {

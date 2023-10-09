@@ -28,8 +28,8 @@ module "ecs-service" {
   network_mode        = var.network_mode
 
   # container_definitions = var.container_definitions
-  container_name     = var.container_name
-  container_image    = var.container_image
+  container_name = var.container_name
+  # container_image    = var.container_image
   container_cpu      = var.container_cpu
   container_memory   = var.container_memory
   container_cport    = var.container_cport

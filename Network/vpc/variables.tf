@@ -41,3 +41,5 @@ variable "private_data_subnet_az1_dev" {}
 variable "private_data_subnet_az2_dev" {}
 variable "vpc_tags2" {}
 #variable "private2_subtags" {}
+
+variable "egress_cidr_blocks" {}

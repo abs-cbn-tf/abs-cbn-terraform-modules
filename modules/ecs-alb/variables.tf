@@ -39,10 +39,10 @@ variable "container_name" {
   description = "Container Name"
   type        = string
 }
-variable "container_image" {
-  description = "Container Image"
-  type        = string
-}
+# variable "container_image" {
+#   description = "Container Image"
+#   type        = string
+# }
 variable "container_cpu" {
   description = "Container CPU"
   type        = number
@@ -151,7 +151,7 @@ variable "tags" {
 
 variable "repositories" {
   description = "A list of ECR repository names to be created"
-  type        = list(string)
+  type        = string
   #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default = ["push-web"]
+  default = "push-web"
 }
