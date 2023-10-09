@@ -4,9 +4,9 @@
 # }
 
 #cloudfront domain name
-output "distribution_domain_name" {
-  value = module.cloudfront-s3.distribution_domain_name
-}
+# output "distribution_domain_name" {
+#   value = module.cloudfront-s3.distribution_domain_name
+# }
 #alb url
 output "lb_dns_name" {
   value = module.ecs-alb.lb_dns_name

@@ -87,40 +87,8 @@ resource "aws_ecs_task_definition" "taskdef" {
     operating_system_family = var.operating_system
     cpu_architecture        = var.cpu_architecture
   }
-  #   volume {
-  #     name      = "service-storage"
-  #     host_path = "/ecs/service-storage"
-  #   }
-
-  #   placement_constraints {
-  #     type       = "memberOf"
-  #     expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
-  #   }
 }
 
-# ecsTaskExecutionRole
-
-/*
-resource "aws_iam_role" "role" {
-  name = var.task_role_name
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = [
-            "ecs.amazonaws.com",
-            "ecs-tasks.amazonaws.com"
-          ]
-        }
-      },
-    ]
-  })
-}
-*/
 resource "aws_iam_role_policy_attachment" "attach1" {
   #  role       = aws_iam_role.role.name
   role       = module.iam_role.iam_role_name

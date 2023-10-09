@@ -1,52 +1,32 @@
 # MODULES FOR LAMBDAS WITH EVENTS TRIGGER
-module "eventbridge-lambda-1" {
-  source                    = "./modules/eventbridge-lambda"
-  aws_region                = var.aws_region
-  function_configurations   = var.events_function_configurations_1
-  eventbridge_configuration = var.eventbridge_configuration_1
-}
-
 module "eventbridge-lambda-2" {
-  source                    = "./modules/eventbridge-lambda"
+  source                    = "../modules/eventbridge-lambda"
   aws_region                = var.aws_region
   function_configurations   = var.events_function_configurations_2
   eventbridge_configuration = var.eventbridge_configuration_2
+  tags                      = merge(var.global_tags, var.individual_tags.eventbridge-lambda-2)
+
 }
 # MODULES FOR LAMBDAS WITH APIGW TRIGGER
 module "apigw-lambda-1" {
-  source                  = "./modules/apigw-lambda"
+  source                  = "../modules/apigw-lambda"
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_1
   apigw_configurations    = var.apigw_configurations_1
   tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-1)
 }
+
 module "apigw-lambda-2" {
-  source                  = "./modules/apigw-lambda"
+  source                  = "../modules/apigw-lambda"
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_2
   apigw_configurations    = var.apigw_configurations_2
+  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-2)
 }
-module "apigw-lambda-3" {
-  source                  = "./modules/apigw-lambda"
-  aws_region              = var.aws_region
-  function_configurations = var.apigw_function_configurations_3
-  apigw_configurations    = var.apigw_configurations_3
-}
-module "apigw-lambda-4" {
-  source                  = "./modules/apigw-lambda"
-  aws_region              = var.aws_region
-  function_configurations = var.apigw_function_configurations_4
-  apigw_configurations    = var.apigw_configurations_4
-}
-module "apigw-lambda-5" {
-  source                  = "./modules/apigw-lambda"
-  aws_region              = var.aws_region
-  function_configurations = var.apigw_function_configurations_5
-  apigw_configurations    = var.apigw_configurations_5
-}
+
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
-  source     = "./modules/ecs-alb"
+  source     = "../modules/ecs-alb"
   # alb
   alb_name = var.alb_name
   subnets  = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
@@ -67,6 +47,8 @@ module "ecs-alb" {
   task_cpu       = var.task_cpu
   task_memory    = var.task_memory
   network_mode   = var.network_mode
+
+  repositories = var.repositories
 
   # container_definitions = var.container_definitions
   container_name = var.container_name
@@ -90,9 +72,9 @@ module "ecs-alb" {
 }
 module "push-web-ecs-service-sg" {
   depends_on  = [module.vpc]
-  source      = "./modules/sg"
-  name        = "push-web-ecs-service-sg"
-  description = "push-web-ecs-service-sg"
+  source      = "../modules/sg"
+  name        = "news-web-ecs-service-sg"
+  description = "news-web-ecs-service-sg"
 
   vpc_id = module.vpc.vpc_id
 
@@ -104,9 +86,9 @@ module "push-web-ecs-service-sg" {
 
 module "push-web-sg" {
   depends_on  = [module.vpc]
-  source      = "./modules/sg"
-  name        = "push-web-sg"
-  description = "push-web-sg"
+  source      = "../modules/sg"
+  name        = "news-web-sg"
+  description = "news-web-sg"
 
   vpc_id = module.vpc.vpc_id
 
@@ -116,7 +98,7 @@ module "push-web-sg" {
 }
 
 module "vpc" {
-  source                       = "./modules/vpc"
+  source                       = "../modules/vpc"
   region                       = var.aws_region
   project_name                 = var.project_name
   vpc_cidr                     = var.vpc_cidr
@@ -136,57 +118,57 @@ module "vpc" {
   vpc_tags = var.vpc_tags
 }
 
-module "cloudfront-s3" {
-  source      = "./modules/cloudfront-s3"
-  bucket_name = var.bucket_name
-  tags        = merge(var.global_tags, var.individual_tags.cloudfront_s3)
-}
+# module "cloudfront-s3" {
+#   source      = "../modules/cloudfront-s3"
+#   bucket_name = var.bucket_name
+#   tags        = merge(var.global_tags, var.individual_tags.cloudfront_s3)
+# }
 
 
-module "opensearch_dev" {
-  source          = "./modules/opensearch"
-  tags            = merge(var.global_tags, var.individual_tags.opensearch_dev)
-  cluster_name    = var.cluster_name
-  instance_type   = var.instance_type
-  access_policies = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "es.amazonaws.com"
-      },
-      "Action": "es:*",
-      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/your-cluster-name/*"
-    }
-  ]
-}
-POLICY
-}
+# module "opensearch_dev" {
+#   source          = "../modules/opensearch"
+#   tags            = merge(var.global_tags, var.individual_tags.opensearch_dev)
+#   cluster_name    = var.cluster_name
+#   instance_type   = var.instance_type
+#   access_policies = <<POLICY
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Principal": {
+#         "Service": "es.amazonaws.com"
+#       },
+#       "Action": "es:*",
+#       "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/your-cluster-name/*"
+#     }
+#   ]
+# }
+# POLICY
+# }
 
 
 
 
-module "opensearch_prod" {
-  source          = "./modules/opensearch"
-  tags            = merge(var.global_tags, var.individual_tags.opensearch_prod)
-  cluster_name    = "prod-cluster"
-  instance_type   = "t2.small.search"
-  access_policies = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "es.amazonaws.com"
-      },
-      "Action": "es:*",
-      "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/prod-cluster/*"
-    }
-  ]
-}
-POLICY
-}
+# module "opensearch_prod" {
+#   source          = "../modules/opensearch"
+#   tags            = merge(var.global_tags, var.individual_tags.opensearch_prod)
+#   cluster_name    = "prod-cluster"
+#   instance_type   = "t2.small.search"
+#   access_policies = <<POLICY
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Principal": {
+#         "Service": "es.amazonaws.com"
+#       },
+#       "Action": "es:*",
+#       "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/prod-cluster/*"
+#     }
+#   ]
+# }
+# POLICY
+# }
 
