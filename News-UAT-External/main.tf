@@ -24,6 +24,13 @@ module "apigw-lambda-2" {
   tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-2)
 }
 
+module "function_1" {
+  source                  = "../modules/lambda"
+  aws_region              = var.aws_region
+  function_configurations = var.function_configurations_1
+  tags                    = merge(var.global_tags, var.individual_tags.function_1)
+}
+
 module "ecs-alb" {
   depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
   source     = "../modules/ecs-alb"

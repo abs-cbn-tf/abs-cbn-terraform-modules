@@ -64,7 +64,7 @@ apigw_function_configurations_1 = {
   }
   my_lambda_tags = {
     App         = "News"
-    Environment = "Demo"
+    Environment = "UAT"
   }
 }
 
@@ -93,7 +93,7 @@ apigw_function_configurations_2 = {
   }
   my_lambda_tags = {
     App         = "News"
-    Environment = "Demo"
+    Environment = "UAT"
   }
 }
 
@@ -107,7 +107,26 @@ apigw_configurations_2 = {
   usage_plan    = "news-page-api-plan"
 }
 
-
+function_configurations_1 = {
+  function_name = "news-imp-syndicate-service"
+  iam_role_name = "news-imp-syndicate-service-role"
+  runtime       = "nodejs18.x"
+  handler       = "index.handler"
+  memory        = 128
+  env_var = {
+    ACCESS_TOKEN  = ""
+    BASE_URL      = ""
+    BRAND         = ""
+    CLIENT_SECRET = ""
+    CLIENT_TOKEN  = ""
+    HOST          = ""
+    WEB_URL       = ""
+  }
+  my_lambda_tags = {
+    App         = "News"
+    Environment = "UAT"
+  }
+}
 
 # ALB VARIABLES
 listener_port     = 443

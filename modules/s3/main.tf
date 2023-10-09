@@ -1,31 +1,3 @@
-variable "bucket_name" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
-
-variable "tags" {
-  description = "The tags to assign to the S3 bucket"
-  type        = map(string)
-}
-
-
-variable "origin_domain_name" {
-  description = "The domain name of the S3 bucket origin"
-  type        = string
-}
-
-variable "origin_id" {
-  description = "The ID of the S3 bucket origin"
-  type        = string
-}
-
-module "cloudfront" {
-  source = "../cloudfront"
-
-  origin_domain_name = var.origin_domain_name
-  origin_id          = var.origin_id
-}
-
 resource "aws_s3_bucket" "site_origin" {
   bucket = var.bucket_name
   tags   = var.tags
@@ -77,41 +49,14 @@ resource "aws_s3_bucket_policy" "site_origin" {
   policy = data.aws_iam_policy_document.site_origin.json
 }
 
-#data "aws_iam_policy_document" "site_origin" {
-#  statement {
-#    sid    = "s3_cloudfront_status_website"
-#    effect = "Allow"
-#
-#    actions = [
-#      "s3:GetObject"
-#    ]
-#
-#    principals {
-#      identifiers = ["cloudfront.amazonaws.com"]
-#      type        = "Service"
-#    }
-
-#    resources = [
-#      "arn:aws:s3:::${aws_s3_bucket.site_origin.bucket}/*"
-#    ]
-
-#    condition {
-#      test     = "StringEquals"
-#      variable = "AWS:SourceArn"
-#      #values   = [aws_cloudfront_distribution.site_access.arn]
-#      values   = [module.cloudfront.distribution_arn]
-#    }
-#  }
-#}
-
 data "aws_iam_policy_document" "site_origin" {
-#  depends_on = [
-#    aws_cloudfront_distribution.site_access,
-#    aws_s3_bucket.site_origin
-#  ]
+  #  depends_on = [
+  #    aws_cloudfront_distribution.site_access,
+  #    aws_s3_bucket.site_origin
+  #  ]
 
   statement {
-    sid    = "s3_cloudfront_status_website"
+    sid    = "AllowCloudFrontPrivateContent"
     effect = "Allow"
 
     actions = [
@@ -130,22 +75,12 @@ data "aws_iam_policy_document" "site_origin" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [module.cloudfront.distribution_arn]
+      values   = [var.cf_source_arn]
     }
   }
 }
 
 
 
-output "bucket_id" {
-  value = aws_s3_bucket.site_origin.id
-}
 
-output "bucket_domain_name" {
-  value = aws_s3_bucket.site_origin.bucket_domain_name
-}
-
-output "bucket" {
-  value = aws_s3_bucket.site_origin
-}
 

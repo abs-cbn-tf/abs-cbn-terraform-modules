@@ -76,6 +76,19 @@ variable "apigw_configurations_2" {
   })
 }
 
+variable "function_configurations_1" {
+  description = "Map of Lambda function configurations"
+  type = object({
+    function_name  = string
+    iam_role_name  = string
+    runtime        = string
+    handler        = string
+    memory         = number
+    env_var        = map(string)
+    my_lambda_tags = map(string)
+  })
+}
+
 //variable "security_groups" {}
 variable "listener_port" {}
 variable "target_group_name" {}
@@ -197,7 +210,7 @@ variable "individual_tags" {
       k1 = "v1"
       k2 = "v2"
     }
-    eventbridge-lambda-1 = {
+    function_1 = {
       k1 = "v1"
       k2 = "v2"
     }

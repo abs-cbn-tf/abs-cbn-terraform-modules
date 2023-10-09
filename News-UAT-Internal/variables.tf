@@ -1,31 +1,5 @@
 variable "aws_region" {}
 variable "profile" {}
-
-# FOR LAMBDAS WITH EVENTS TRIGGER
-
-variable "events_function_configurations_2" {
-  description = "Map of Lambda function configurations"
-  type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
-  })
-}
-variable "eventbridge_configuration_2" {
-  description = "List of cloudwatch events configurations"
-  type = object({
-    name                 = string
-    description          = string
-    event_bus_name       = string
-    scheduled_expression = string
-    event_pattern        = string
-  })
-}
-
 # FOR LAMBDAS WITH APIGW TRIGGER
 variable "apigw_function_configurations_1" {
   description = "Map of Lambda function configurations"
@@ -126,32 +100,7 @@ variable "apigw_configurations_4" {
     usage_plan    = string
   })
 }
-
-variable "apigw_function_configurations_5" {
-  description = "Map of Lambda function configurations"
-  type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
-  })
-}
-
-variable "apigw_configurations_5" {
-  description = "Map of APIGW configurations"
-  type = object({
-    apigw_name    = string
-    resource_name = string
-    method_name   = string
-    stage_name    = string
-    api_key       = string
-    usage_plan    = string
-  })
-}
-
+# LAMBDA ONLY
 variable "function_configurations_1" {
   description = "Map of Lambda function configurations"
   type = object({
@@ -165,85 +114,33 @@ variable "function_configurations_1" {
   })
 }
 
-# ALB VARIABLES
-/*
-variable "vpc_id" {
-  default = module.vpc.vpc_id
+# cloudfront-s3
+variable "bucket_name_1" {
+  description = "The name of the S3 bucket"
+  type        = string
 }
-variable "subnets" {
-  default = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
-}
-*/
-//variable "security_groups" {}
-variable "listener_port" {}
-variable "target_group_name" {}
-variable "target_group_port" {}
-# variable "listener_cert_arn" {}
-variable "alb_name" {}
-
-# ECS CLUSTER VARIABLES 
-variable "tf_my_cluster" {}
-variable "tf_capacity_provider" {}
-
-#ECS SERVICE VARIABLES
-variable "task_family" {}
-variable "task_cpu" {}
-variable "task_memory" {}
-variable "task_role_name" {}
-variable "network_mode" {}
-variable "ecs_lb_cport" {}
-
-# Container Definition Variables
-variable "container_name" {}
-# variable "container_image" {}
-variable "container_cpu" {}
-variable "container_memory" {}
-variable "container_cport" {}
-variable "container_hport" {}
-variable "container_protocol" {}
-variable "requires_compatibilities" {}
-variable "operating_system" {}
-variable "cpu_architecture" {}
-
-# Variables for the service
-variable "service_name" {}
-
-variable "service_role_name" {}
-
-# variables for vpc
-variable "project_name" {}
-variable "vpc_cidr" {}
-variable "public_subnet_az1_cidr" {}
-variable "public_subnet_az2_cidr" {}
-variable "private_app_subnet_az1_cidr" {}
-variable "private_app_subnet_az2_cidr" {}
-variable "private_data_subnet_az1_cidr" {}
-variable "private_data_subnet_az2_cidr" {}
-
-variable "public_subnet_az1_abs" {}
-variable "public_subnet_az2_abs" {}
-variable "private_app_subnet_az1_abs" {}
-variable "private_app_subnet_az2_abs" {}
-variable "private_data_subnet_az1_abs" {}
-variable "private_data_subnet_az2_abs" {}
-
-variable "egress_cidr_blocks" {
-  type    = list(string)
-  default = []
+variable "tags_1" {
+  description = "The tags to assign to the S3 bucket"
+  type        = map(string)
 }
 
-variable "vpc_tags" {}
+variable "bucket_name_2" {
+  description = "The name of the S3 bucket"
+  type        = string
+}
+variable "tags_2" {
+  description = "The tags to assign to the S3 bucket"
+  type        = map(string)
+}
 
-variable "ingress_rules_1" {}
-variable "ingress_rules_2" {}
-variable "egress_rules_1" {}
-variable "egress_rules_2" {}
-
-
-variable "cluster_name" {}
-variable "instance_type" {}
-variable "aws_account_id" {}
-
+variable "bucket_name_3" {
+  description = "The name of the S3 bucket"
+  type        = string
+}
+variable "tags_3" {
+  description = "The tags to assign to the S3 bucket"
+  type        = map(string)
+}
 
 variable "global_tags" {
   description = "Global tags for all resources"
@@ -258,17 +155,9 @@ variable "individual_tags" {
   description = "Individual tags for specific modules"
   type        = map(map(string))
   default = {
-    ecs-alb = {
-      k1 = "v1"
-      k2 = "v2"
-    }
     function_1 = {
       k1 = "v1"
       k2 = "v2"
-    }
-    eventbridge-lambda-2 = {
-      k1 = "v1"
-      k2 = "v3"
     }
     apigw-lambda-1 = {
       k1 = "v1"
@@ -290,23 +179,15 @@ variable "individual_tags" {
       k1 = "v1"
       k2 = "v2"
     }
-    opensearch_dev = {
+    cloudfront_s3_1 = {
       k1 = "v1"
       k2 = "v2"
     }
-    opensearch_prod = {
+    cloudfront_s3_2 = {
       k1 = "v1"
       k2 = "v2"
     }
-    cloudfront_s3 = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    push-web-ecs-service-sg = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    push-web-sg = {
+    cloudfront_s3_3 = {
       k1 = "v1"
       k2 = "v2"
     }

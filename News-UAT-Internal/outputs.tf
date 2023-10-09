@@ -4,24 +4,7 @@
 # }
 
 #alb url
-output "lb_dns_name" {
-  value = module.ecs-alb.lb_dns_name
-}
-#VPC Outputs
-output "vpc_id" {
-  value = module.vpc.vpc_id
-}
+# output "repo_url" {
+#   value = module.ecs-alb.repo_url
 
-output "public_subnet_az1_id" {
-  value = module.vpc.public_subnet_az1_id
-}
-
-
-output "public_subnet_az2_id" {
-  value = module.vpc.public_subnet_az2_id
-}
-
-output "repo_url" {
-  value = module.ecs-alb.repo_url
-
-}
+# }
