@@ -187,6 +187,7 @@ vpc_tags = {
 }
 
 ## Variables for SG
+# news-web-ecs-service-sg
 ingress_rules_1 = [{
   from_port   = 3000
   to_port     = 3000
@@ -201,6 +202,7 @@ egress_rules_1 = [{
   cidr_blocks = ["0.0.0.0/0"]
   self        = true
 }]
+# news-web-sg
 ingress_rules_2 = [
   {
     from_port   = 443
@@ -225,16 +227,48 @@ egress_rules_2 = [{
   self        = true
 }]
 
-# #cloudfront-s3
-# bucket_name = "cloudfront-s3-12345"
-# tags = {
-#   key1 = "value1"
-#   key2 = "value2"
+# TAGGINGS
+global_tags = {
+  g1 = "Global Tag Value 1"
+  g2 = "Global Tag Value 2"
+}
+# individual_tags = {
+#   eventbridge-lambda-2 = {
+#     #news-imp-trending-data-service
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   apigw-lambda-1 = {
+#     #news-imp-content-api
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   apigw-lambda-2 = {
+#     #news-imp-page-api
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   function_1 = {
+#     #news-imp-syndicate-service
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   vpc = {
+#     k1 = "vpc"
+#     k2 = "VPC"
+#   }
+#   ecs_alb = {
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   news-web-ecs-service-sg = {
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
+#   news-web-sg = {
+#     k1 = "v1"
+#     k2 = "v2"
+#   }
 # }
 
-# ####opensearch
-# aws_account_id = "996478355195"
-# cluster_name   = "dev-cluster"
-# instance_type  = "m3.medium.search"
 
-# #########

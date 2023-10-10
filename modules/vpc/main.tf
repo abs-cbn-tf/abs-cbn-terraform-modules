@@ -3,7 +3,8 @@ resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr
   instance_tenancy     = "default"
   enable_dns_hostnames = true
-  tags                 = var.vpc_tags
+  # tags                 = var.vpc_tags
+  tags = var.tags
   #  tags      = {
   #    Name    = "${var.project_name}-vpc"
   #  }
@@ -29,6 +30,7 @@ resource "aws_security_group" "vpc_sg" {
     protocol    = "-1"
     cidr_blocks = var.egress_cidr_blocks
   }
+  tags = var.tags
 }
 # use data source to get all avalablility zones in region
 data "aws_availability_zones" "available_zones" {}
@@ -44,9 +46,7 @@ resource "aws_route_table" "public_route_table" {
     gateway_id = aws_internet_gateway.internet_gateway.id
   }
 
-  tags = {
-    Name = "consumption-rtb-public"
-  }
+  tags = var.tags
 }
 
 # associate public subnet az1 to "public route table"

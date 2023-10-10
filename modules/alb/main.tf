@@ -23,6 +23,7 @@ resource "aws_lb_target_group" "alb-example" {
     timeout             = 15
     interval            = 20
   }
+  tags = var.tags
 }
 
 data "aws_acm_certificate" "existing" {
@@ -48,5 +49,6 @@ resource "aws_lb_listener" "alb-example" {
     target_group_arn = aws_lb_target_group.alb-example.arn
   }
   certificate_arn = data.aws_acm_certificate.existing.arn
+  tags            = var.tags
 }
 

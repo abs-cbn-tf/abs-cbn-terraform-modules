@@ -20,7 +20,10 @@ variable "private_data_subnet_az2" {}
 
 variable "public_subnet_az1" {}
 variable "public_subnet_az2" {}
-variable "vpc_tags" {}
+# variable "vpc_tags" {}
+variable "tags" {
+  type = map(string)
+}
 
 #from the root vpc 
 # variable "public_subnet_az1_abs" {}

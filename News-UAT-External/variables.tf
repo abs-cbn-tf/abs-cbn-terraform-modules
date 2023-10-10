@@ -154,32 +154,16 @@ variable "ingress_rules_2" {}
 variable "egress_rules_1" {}
 variable "egress_rules_2" {}
 
-
-# # cloudfront-s3
-# variable "bucket_name" {
-#   description = "The name of the S3 bucket"
-#   type        = string
-# }
-
-# variable "tags" {
-#   description = "The tags to assign to the S3 bucket"
-#   type        = map(string)
-# }
-
-# # opensearch
-# variable "cluster_name" {}
-# variable "instance_type" {}
-# variable "aws_account_id" {}
-
-
 # GLOBAL TAGGINGS
 variable "global_tags" {
   description = "Global tags for all resources"
-  type        = map(string)
-  default = {
-    g1 = "v1"
-    g2 = "v2"
-  }
+  # type        = map(string)
+  type = object(
+    {
+      g1 = string
+      g2 = string
+    }
+  )
 }
 
 variable "individual_tags" {
@@ -187,46 +171,42 @@ variable "individual_tags" {
   type        = map(map(string))
   default = {
     eventbridge-lambda-2 = {
+      #news-imp-trending-data-service
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-1 = {
+      #news-imp-content-api
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-2 = {
+      #news-imp-page-api
       k1 = "v1"
       k2 = "v2"
+    }
+    function_1 = {
+      #news-imp-syndicate-service
+      k1 = "v1"
+      k2 = "v2"
+    }
+    vpc = {
+      Name = "News-Consumption"
+      k1   = "vpc"
+      k2   = "VPC"
     }
     ecs_alb = {
       k1 = "v1"
       k2 = "v2"
     }
-    opensearch_dev = {
+    news-web-ecs-service-sg = {
       k1 = "v1"
       k2 = "v2"
     }
-    opensearch_prod = {
+    news-web-sg = {
       k1 = "v1"
       k2 = "v2"
     }
-    function_1 = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    cloudfront_s3 = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    push-web-ecs-service-sg = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    push-web-sg = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    // Add more individual tags for other modules as needed
   }
 }
 

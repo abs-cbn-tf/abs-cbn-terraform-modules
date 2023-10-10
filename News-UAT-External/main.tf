@@ -32,13 +32,13 @@ module "function_1" {
 }
 
 module "ecs-alb" {
-  depends_on = [module.vpc, module.push-web-sg, module.push-web-ecs-service-sg]
+  depends_on = [module.vpc, module.news-web-sg, module.news-web-ecs-service-sg]
   source     = "../modules/ecs-alb"
   # alb
   alb_name = var.alb_name
   subnets  = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
   # security_groups     = [module.push-web-ecs-service-sg.security_group_id]
-  ecs_security_groups = [module.push-web-sg.security_group_id]
+  ecs_security_groups = [module.news-web-sg.security_group_id]
   listener_port       = var.listener_port
   target_group_name   = var.target_group_name
   target_group_port   = var.target_group_port
@@ -77,7 +77,7 @@ module "ecs-alb" {
   tags              = merge(var.global_tags, var.individual_tags.ecs_alb)
 
 }
-module "push-web-ecs-service-sg" {
+module "news-web-ecs-service-sg" {
   depends_on  = [module.vpc]
   source      = "../modules/sg"
   name        = "news-web-ecs-service-sg"
@@ -88,10 +88,10 @@ module "push-web-ecs-service-sg" {
   ingress_rules = var.ingress_rules_1
   egress_rules  = var.egress_rules_1
 
-  tags = merge(var.global_tags, var.individual_tags.push-web-ecs-service-sg)
+  tags = merge(var.global_tags, var.individual_tags.news-web-ecs-service-sg)
 }
 
-module "push-web-sg" {
+module "news-web-sg" {
   depends_on  = [module.vpc]
   source      = "../modules/sg"
   name        = "news-web-sg"
@@ -101,7 +101,7 @@ module "push-web-sg" {
 
   ingress_rules = var.ingress_rules_2
   egress_rules  = var.egress_rules_2
-  tags          = merge(var.global_tags, var.individual_tags.push-web-sg)
+  tags          = merge(var.global_tags, var.individual_tags.news-web-sg)
 }
 
 module "vpc" {
@@ -122,7 +122,7 @@ module "vpc" {
   private_app_subnet_az2       = var.private_app_subnet_az2_abs
   private_app_subnet_az1       = var.private_app_subnet_az1_abs
 
-  vpc_tags = var.vpc_tags
+  tags = merge(var.global_tags, var.individual_tags.vpc)
 }
 
 # module "cloudfront-s3" {

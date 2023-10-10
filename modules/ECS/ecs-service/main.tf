@@ -12,6 +12,7 @@ resource "aws_ecr_repository" "example" {
   image_scanning_configuration {
     scan_on_push = true
   }
+  tags = var.tags
 }
 #variable "task_role_name" {
 #  description = "Name for the IAM role that the ECS task will assume"
@@ -51,30 +52,6 @@ resource "aws_ecs_task_definition" "taskdef" {
     }
     }
   ])
-  # [
-  #   {
-  #     "name": "${var.container_name}",
-  #     "image": "${aws_ecr_repository.example[0].repository_url}",
-  #     "cpu": ${var.container_cpu},
-  #     "memory": ${var.container_memory},
-  #     "portMappings": [
-  #       {
-  #         "containerPort": ${var.container_cport},
-  #         "hostPort": ${var.container_hport},
-  #         "protocol": "${var.container_protocol}"
-  #       }
-  #     ],
-  #     "log_configuration": {
-  #       "log_driver": "awslogs",
-  #       "options": {
-  #         "awslogs-group": "/ecs/${var.task_family}",
-  #         "awslogs-region": "ap-southeast-1",
-  #         "awslogs-stream-prefix": "ecs"
-  #       }
-  #     }
-  #   }  
-  # ]
-
   #  execution_role_arn       = aws_iam_role.role.arn
   execution_role_arn = module.iam_role.iam_role_arn
   task_role_arn      = module.iam_role.iam_role_arn
@@ -87,6 +64,7 @@ resource "aws_ecs_task_definition" "taskdef" {
     operating_system_family = var.operating_system
     cpu_architecture        = var.cpu_architecture
   }
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "attach1" {
