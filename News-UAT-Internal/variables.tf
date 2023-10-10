@@ -159,26 +159,27 @@ variable "individual_tags" {
   type        = map(map(string))
   default = {
     function_1 = {
+      # kentico-news-service-lambda
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-1 = {
+      # imp-news-wb-lite-api
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-2 = {
+      # imp-news-image-upload
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-3 = {
+      # imp-news-image
       k1 = "v1"
       k2 = "v2"
     }
     apigw-lambda-4 = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-5 = {
+      # imp-news-pcm-api
       k1 = "v1"
       k2 = "v2"
     }
