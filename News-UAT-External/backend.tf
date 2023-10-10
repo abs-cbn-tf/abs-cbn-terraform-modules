@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "news-abs-cbn-terraform-state/news-uat-external/"
+    bucket = "news-abs-cbn-terraform-state-uat-external/news-uat-external/"
     key    = "terraform.tfstate"
     region = "ap-southeast-1" # Set your desired AWS region
     # encrypt        = true
