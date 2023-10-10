@@ -165,3 +165,9 @@ tags_3 = {
   key1 = "value1"
   key2 = "value2"
 }
+
+# GLOBAL TAGGINGS
+global_tags = {
+  g1 = "Global Tag Value 1"
+  g2 = "Global Tag Value 2"
+}

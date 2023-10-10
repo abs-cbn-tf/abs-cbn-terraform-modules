@@ -142,13 +142,16 @@ variable "tags_3" {
   type        = map(string)
 }
 
+# GLOBAL TAGGINGS
 variable "global_tags" {
   description = "Global tags for all resources"
-  type        = map(string)
-  default = {
-    g1 = "v1"
-    k2 = "v2"
-  }
+  # type        = map(string)
+  type = object(
+    {
+      g1 = string
+      g2 = string
+    }
+  )
 }
 
 variable "individual_tags" {
@@ -180,24 +183,24 @@ variable "individual_tags" {
       k2 = "v2"
     }
     cloudfront_s3_1 = {
-      k1 = "v1"
+      k1 = "cf1"
       k2 = "v2"
     }
     cloudfront_s3_2 = {
-      k1 = "v1"
+      k1 = "cf2"
       k2 = "v2"
     }
     cloudfront_s3_3 = {
-      k1 = "v1"
+      k1 = "cf3"
       k2 = "v2"
     }
     // Add more individual tags for other modules as needed
   }
 }
 
-variable "repositories" {
-  description = "A list of ECR repository names to be created"
-  type        = string
-  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default = "push-web"
-}
+# variable "repositories" {
+#   description = "A list of ECR repository names to be created"
+#   type        = string
+#   #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
+#   default = "push-web"
+# }
