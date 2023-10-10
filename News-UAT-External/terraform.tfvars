@@ -1,5 +1,5 @@
 aws_region = "ap-southeast-1"
-profile    = "default"
+profile    = "News-UAT-External"
 # FOR LAMBDAS WITH EVENTS TRIGGER
 events_function_configurations_2 = {
   function_name = "news-imp-trending-data-service"
