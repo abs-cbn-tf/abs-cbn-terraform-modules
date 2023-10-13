@@ -165,18 +165,18 @@ repositories      = "news-web"
 
 # variables for vpc
 project_name                 = "consumption-news"
-vpc_cidr                     = "10.195.80.0/21"
-public_subnet_az1_cidr       = "10.195.80.0/24"
+vpc_cidr                     = "10.195.152.0/21"
+public_subnet_az1_cidr       = "10.195.152.0/24"
 public_subnet_az1_abs        = "consumption-news-subnet-public1-ap-southeast-1a"
-public_subnet_az2_cidr       = "10.195.81.0/24"
+public_subnet_az2_cidr       = "10.195.153.0/24"
 public_subnet_az2_abs        = "consumption-news-subnet-public2-ap-southeast-1b"
-private_app_subnet_az1_cidr  = "10.195.82.0/24"
+private_app_subnet_az1_cidr  = "10.195.154.0/24"
 private_app_subnet_az1_abs   = "consumption-news-subnet-private1-ap-southeast-1a"
-private_app_subnet_az2_cidr  = "10.195.83.0/24"
+private_app_subnet_az2_cidr  = "10.195.155.0/24"
 private_app_subnet_az2_abs   = "consumption-news-subnet-private2-ap-southeast-1b"
-private_data_subnet_az1_cidr = "10.195.84.0/24"
+private_data_subnet_az1_cidr = "10.195.156.0/24"
 private_data_subnet_az1_abs  = "consumption-news-subnet-private3-ap-southeast-1a"
-private_data_subnet_az2_cidr = "10.195.85.0/24"
+private_data_subnet_az2_cidr = "10.195.157.0/24"
 private_data_subnet_az2_abs  = "consumption-news-subnet-private4-ap-southeast-1b"
 #cidr_out_sg="0.0.0.0"
 egress_cidr_blocks = ["0.0.0.0"]
@@ -229,8 +229,16 @@ egress_rules_2 = [{
 
 # TAGGINGS
 global_tags = {
-  g1 = "Global Tag Value 1"
-  g2 = "Global Tag Value 2"
+  "abs::cost-center"      = "50016043"
+  "abs::criticality"      = "Silver"
+  "abs::environment"      = "UAT"
+  "abs::product"          = "NewsWeb"
+  "abs::tech-owner"       = "DCT"
+  "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+  "abs::url"              = "uat-news.abs-cbn.com"
+  "abs:backup"            = "No"
+  "abs::lob"              = "News"
+  "abs:shared"            = "No"
 }
 # individual_tags = {
 #   eventbridge-lambda-2 = {

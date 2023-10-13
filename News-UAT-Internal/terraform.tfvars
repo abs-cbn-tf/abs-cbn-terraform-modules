@@ -168,6 +168,14 @@ tags_3 = {
 
 # GLOBAL TAGGINGS
 global_tags = {
-  g1 = "Global Tag Value 1"
-  g2 = "Global Tag Value 2"
+  "abs::cost-center"      = "50016043"
+  "abs::criticality"      = "Silver"
+  "abs::environment"      = "UAT"
+  "abs::product"          = "NewsWeb"
+  "abs::tech-owner"       = "DCT"
+  "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+  "abs::url"              = "uat-news.abs-cbn.com"
+  "abs:backup"            = "No"
+  "abs::lob"              = "News"
+  "abs:shared"            = "No"
 }
