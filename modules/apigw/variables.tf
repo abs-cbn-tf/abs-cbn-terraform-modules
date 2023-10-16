@@ -20,6 +20,7 @@ variable "apigw_configurations" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 

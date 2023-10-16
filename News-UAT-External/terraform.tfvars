@@ -15,9 +15,17 @@ events_function_configurations_2 = {
     MONGO_URI     = ""
     TRENDING_API  = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "Demo"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -28,6 +36,18 @@ eventbridge_configuration_2 = {
   event_bus_name       = "default"
   scheduled_expression = "cron(5 * * * ? *)"
   event_pattern        = ""
+  event_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 # LAMBDA APIGW
@@ -62,9 +82,17 @@ apigw_function_configurations_1 = {
     WEB_URL                   = ""
     WIDGET_ID                 = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -76,6 +104,18 @@ apigw_configurations_1 = {
   stage_name    = "Prod"
   api_key       = "news-content-api-key"
   usage_plan    = "news-content-api-plan"
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 apigw_function_configurations_2 = {
@@ -91,9 +131,17 @@ apigw_function_configurations_2 = {
     MONGODB_URL       = ""
     NODE_ENV          = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -105,6 +153,18 @@ apigw_configurations_2 = {
   stage_name    = "Prod"
   api_key       = "news-page-api-key"
   usage_plan    = "news-page-api-plan"
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 function_configurations_1 = {
@@ -122,17 +182,62 @@ function_configurations_1 = {
     HOST          = ""
     WEB_URL       = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
 # ALB VARIABLES
-listener_port     = 443
-target_group_name = "news-web-tg"
-target_group_port = 3000
-alb_name          = "news-web-alb"
+alb_configurations = {
+  # alb
+  alb_name = "news-web-alb"
+  lb_type  = "application"
+  # target group
+  target_group_name             = "news-web-tg"
+  target_type                   = "ip"
+  ip_address_type               = "ipv4"
+  target_group_port             = 3000
+  target_group_protocol         = "HTTP"
+  target_group_protocol_version = "HTTP1"
+  target_group_health_check = {
+    enabled             = "true"
+    protocol            = "HTTP"
+    path                = "/healthCheck"
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    timeout             = 15
+    interval            = 20
+  }
+  # listener
+  listener_port       = 443
+  listener_protocol   = "HTTPS"
+  listener_ssl_policy = "ELBSecurityPolicy-TLS-1-2-2017-01"
+  listener_default_action = {
+    type = "forward"
+  }
+  alb_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
+
 
 # ECS CLUSTER VARIABLES 
 tf_my_cluster        = "consumption-news"
@@ -178,68 +283,94 @@ private_data_subnet_az1_cidr = "10.195.156.0/24"
 private_data_subnet_az1_abs  = "consumption-news-subnet-private3-ap-southeast-1a"
 private_data_subnet_az2_cidr = "10.195.157.0/24"
 private_data_subnet_az2_abs  = "consumption-news-subnet-private4-ap-southeast-1b"
-#cidr_out_sg="0.0.0.0"
-egress_cidr_blocks = ["0.0.0.0"]
-#cidr_out_sg="0.0.0.0"
-# egress_cidr_blocks = "0.0.0.0"
+egress_cidr_blocks           = ["0.0.0.0"]
 vpc_tags = {
   Name = "consumption-news"
 }
 
 ## Variables for SG
-# news-web-ecs-service-sg
-ingress_rules_1 = [{
-  from_port   = 3000
-  to_port     = 3000
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  self        = true
-}]
-egress_rules_1 = [{
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-  self        = true
-}]
-# news-web-sg
-ingress_rules_2 = [
-  {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    self        = true
-  },
-  {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    self        = true
+sg_configurations_1 = {
+  sg_name        = "news-web-sg"
+  sg_description = "sg for news web"
+  ingress_rules = [
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      self        = true
+    },
+    {
+      from_port   = 3000
+      to_port     = 3000
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      self        = true
+    }
+  ]
+  egress_rules = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      self        = true
+    }
+  ]
+  sg_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
-]
-egress_rules_2 = [{
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-  self        = true
-}]
+}
+
+sg_configurations_2 = {
+  sg_name        = "news-web-ecs-service-sg"
+  sg_description = "sg for news web"
+  ingress_rules = [
+    {
+      from_port   = 3000
+      to_port     = 3000
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+      self        = true
+    }
+  ]
+  egress_rules = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      self        = true
+    }
+  ]
+  sg_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
 
 # TAGGINGS
 global_tags = {
-  "abs::cost-center"      = "50016043"
-  "abs::criticality"      = "Silver"
-  "abs::environment"      = "UAT"
-  "abs::product"          = "NewsWeb"
-  "abs::tech-owner"       = "DCT"
-  "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
-  "abs::url"              = "uat-news.abs-cbn.com"
-  "abs:backup"            = "No"
-  "abs::lob"              = "News"
-  "abs:shared"            = "No"
+  global_tags = "global_tag_value"
 }
+
 # individual_tags = {
 #   eventbridge-lambda-2 = {
 #     #news-imp-trending-data-service

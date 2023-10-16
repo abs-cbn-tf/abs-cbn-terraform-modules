@@ -4,7 +4,7 @@ resource "aws_cloudwatch_event_rule" "example_rule" {
   event_bus_name      = var.eventbridge_configuration.event_bus_name
   event_pattern       = var.eventbridge_configuration.event_pattern
   schedule_expression = var.eventbridge_configuration.scheduled_expression
-  tags   = var.tags
+  tags                = merge(var.tags, var.eventbridge_configuration.event_tags)
 }
 
 

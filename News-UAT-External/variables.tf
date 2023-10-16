@@ -5,13 +5,13 @@ variable "profile" {}
 variable "events_function_configurations_2" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 variable "eventbridge_configuration_2" {
@@ -22,6 +22,7 @@ variable "eventbridge_configuration_2" {
     event_bus_name       = string
     scheduled_expression = string
     event_pattern        = string
+    event_tags           = map(string)
   })
 }
 
@@ -29,13 +30,13 @@ variable "eventbridge_configuration_2" {
 variable "apigw_function_configurations_1" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -48,19 +49,20 @@ variable "apigw_configurations_1" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 
 variable "apigw_function_configurations_2" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -73,28 +75,45 @@ variable "apigw_configurations_2" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 
 variable "function_configurations_1" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
-//variable "security_groups" {}
-variable "listener_port" {}
-variable "target_group_name" {}
-variable "target_group_port" {}
-# variable "listener_cert_arn" {}
-variable "alb_name" {}
+# ALB CONFIGURATION
+variable "alb_configurations" {
+  type = object({
+    # alb
+    alb_name = string #news-web-alb
+    lb_type  = string #application
+    # target group
+    target_group_name             = string #news-web-tg
+    target_type                   = string #ip
+    ip_address_type               = string #ipv4
+    target_group_port             = number #3000
+    target_group_protocol         = string #HTTP
+    target_group_protocol_version = string #HTTP1
+    target_group_health_check     = map(string)
+    # listener
+    listener_port           = number #443
+    listener_protocol       = string #HTTPS
+    listener_ssl_policy     = string #ELBSecurityPolicy-TLS-1-2-2017-01
+    listener_default_action = map(string)
+    alb_tags                = map(string)
+  })
+}
 
 # ECS CLUSTER VARIABLES 
 variable "tf_my_cluster" {}
@@ -141,72 +160,72 @@ variable "private_app_subnet_az1_abs" {}
 variable "private_app_subnet_az2_abs" {}
 variable "private_data_subnet_az1_abs" {}
 variable "private_data_subnet_az2_abs" {}
-
 variable "egress_cidr_blocks" {
   type    = list(string)
   default = []
 }
-
 variable "vpc_tags" {}
 
-variable "ingress_rules_1" {}
-variable "ingress_rules_2" {}
-variable "egress_rules_1" {}
-variable "egress_rules_2" {}
+## Variables for SG
+# variable "ingress_rules_1" {}
+# variable "ingress_rules_2" {}
+# variable "egress_rules_1" {}
+# variable "egress_rules_2" {}
+
+variable "sg_configurations_1" {
+  type = object({
+    sg_name        = string
+    sg_description = string
+
+    ingress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+      self        = bool
+    }))
+    egress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+      self        = bool
+    }))
+
+    sg_tags = map(string)
+  })
+}
+
+variable "sg_configurations_2" {
+  type = object({
+    sg_name        = string
+    sg_description = string
+
+    ingress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+      self        = bool
+    }))
+    egress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+      self        = bool
+    }))
+
+    sg_tags = map(string)
+  })
+}
 
 # GLOBAL TAGGINGS
 variable "global_tags" {
   description = "Global tags for all resources"
-  # type        = map(string)
-  type = object(
-    {
-      g1 = string
-      g2 = string
-    }
-  )
-}
-
-variable "individual_tags" {
-  description = "Individual tags for specific modules"
-  type        = map(map(string))
+  type        = map(string)
   default = {
-    eventbridge-lambda-2 = {
-      #news-imp-trending-data-service
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-1 = {
-      #news-imp-content-api
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-2 = {
-      #news-imp-page-api
-      k1 = "v1"
-      k2 = "v2"
-    }
-    function_1 = {
-      #news-imp-syndicate-service
-      k1 = "v1"
-      k2 = "v2"
-    }
-    vpc = {
-      Name = "News-Consumption"
-      k1   = "vpc"
-      k2   = "VPC"
-    }
-    ecs_alb = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    news-web-ecs-service-sg = {
-      k1 = "v1"
-      k2 = "v2"
-    }
-    news-web-sg = {
-      k1 = "v1"
-      k2 = "v2"
-    }
+    global_tag = "test"
   }
 }
 

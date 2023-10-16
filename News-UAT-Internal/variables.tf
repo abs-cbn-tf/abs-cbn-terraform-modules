@@ -4,13 +4,13 @@ variable "profile" {}
 variable "apigw_function_configurations_1" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -23,19 +23,20 @@ variable "apigw_configurations_1" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 
 variable "apigw_function_configurations_2" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -48,19 +49,20 @@ variable "apigw_configurations_2" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 
 variable "apigw_function_configurations_3" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -73,19 +75,20 @@ variable "apigw_configurations_3" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 
 variable "apigw_function_configurations_4" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 
@@ -98,19 +101,20 @@ variable "apigw_configurations_4" {
     stage_name    = string
     api_key       = string
     usage_plan    = string
+    apigw_tags    = map(string)
   })
 }
 # LAMBDA ONLY
 variable "function_configurations_1" {
   description = "Map of Lambda function configurations"
   type = object({
-    function_name  = string
-    iam_role_name  = string
-    runtime        = string
-    handler        = string
-    memory         = number
-    env_var        = map(string)
-    my_lambda_tags = map(string)
+    function_name = string
+    iam_role_name = string
+    runtime       = string
+    handler       = string
+    memory        = number
+    env_var       = map(string)
+    lambda_tags   = map(string)
   })
 }
 

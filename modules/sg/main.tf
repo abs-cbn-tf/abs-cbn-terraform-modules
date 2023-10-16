@@ -1,51 +1,10 @@
-variable "description" {
-  type    = string
-  default = "Default description"
-}
-
-variable "ingress_rules" {
-  type    = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
-    self        = bool
-  }))
-  default = []
-}
-
-variable "egress_rules" {
-  type    = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
-    self        = bool
-  }))
-  default = []
-}
-
-variable "name" {
-  type    = string
-  default = "default"
-}
-
-variable "tags" {
-  type    = map(string)
-  default = {}
-}
-
-variable "vpc_id" {
-  type = string
-}
-
 resource "aws_security_group" "security_group" {
-  description = var.description
-  name        = var.name
+  name        = var.sg_configurations.sg_name
+  description = var.sg_configurations.sg_description
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.ingress_rules
+    for_each = var.sg_configurations.ingress_rules #var.ingress_rules
     content {
       from_port   = ingress.value.from_port
       to_port     = ingress.value.to_port
@@ -56,7 +15,7 @@ resource "aws_security_group" "security_group" {
   }
 
   dynamic "egress" {
-    for_each = var.egress_rules
+    for_each = var.sg_configurations.egress_rules #var.egress_rules
     content {
       from_port   = egress.value.from_port
       to_port     = egress.value.to_port
@@ -66,6 +25,6 @@ resource "aws_security_group" "security_group" {
     }
   }
 
-  tags = var.tags
+  tags = merge(var.tags, var.sg_configurations.sg_tags)
 }
 

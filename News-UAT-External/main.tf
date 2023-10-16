@@ -4,7 +4,7 @@ module "eventbridge-lambda-2" {
   aws_region                = var.aws_region
   function_configurations   = var.events_function_configurations_2
   eventbridge_configuration = var.eventbridge_configuration_2
-  tags                      = merge(var.global_tags, var.individual_tags.eventbridge-lambda-2)
+  tags                      = var.global_tags
 
 }
 # MODULES FOR LAMBDAS WITH APIGW TRIGGER
@@ -13,7 +13,7 @@ module "apigw-lambda-1" {
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_1
   apigw_configurations    = var.apigw_configurations_1
-  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-1)
+  tags                    = var.global_tags
 }
 
 module "apigw-lambda-2" {
@@ -21,27 +21,24 @@ module "apigw-lambda-2" {
   aws_region              = var.aws_region
   function_configurations = var.apigw_function_configurations_2
   apigw_configurations    = var.apigw_configurations_2
-  tags                    = merge(var.global_tags, var.individual_tags.apigw-lambda-2)
+  tags                    = var.global_tags
 }
 
 module "function_1" {
   source                  = "../modules/lambda"
   aws_region              = var.aws_region
   function_configurations = var.function_configurations_1
-  tags                    = merge(var.global_tags, var.individual_tags.function_1)
+  tags                    = var.global_tags
 }
 
 module "ecs-alb" {
   depends_on = [module.vpc, module.news-web-sg, module.news-web-ecs-service-sg]
   source     = "../modules/ecs-alb"
   # alb
-  alb_name = var.alb_name
-  subnets  = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
+  alb_configurations = var.alb_configurations
+  subnets            = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
   # security_groups     = [module.push-web-ecs-service-sg.security_group_id]
   ecs_security_groups = [module.news-web-sg.security_group_id]
-  listener_port       = var.listener_port
-  target_group_name   = var.target_group_name
-  target_group_port   = var.target_group_port
   vpc_id              = module.vpc.vpc_id
 
   # cluster
@@ -74,35 +71,25 @@ module "ecs-alb" {
   service_name      = var.service_name
   service_role_name = var.service_role_name
   ecs_lb_cport      = var.ecs_lb_cport
-  tags              = merge(var.global_tags, var.individual_tags.ecs_alb)
+  tags              = var.global_tags
 
+}
+module "news-web-sg" {
+  depends_on        = [module.vpc]
+  source            = "../modules/sg"
+  sg_configurations = var.sg_configurations_1
+  vpc_id            = module.vpc.vpc_id
+  tags              = var.global_tags
 }
 module "news-web-ecs-service-sg" {
-  depends_on  = [module.vpc]
-  source      = "../modules/sg"
-  name        = "news-web-ecs-service-sg"
-  description = "news-web-ecs-service-sg"
-
-  vpc_id = module.vpc.vpc_id
-
-  ingress_rules = var.ingress_rules_1
-  egress_rules  = var.egress_rules_1
-
-  tags = merge(var.global_tags, var.individual_tags.news-web-ecs-service-sg)
+  depends_on        = [module.vpc]
+  source            = "../modules/sg"
+  sg_configurations = var.sg_configurations_2
+  vpc_id            = module.vpc.vpc_id
+  tags              = var.global_tags
 }
 
-module "news-web-sg" {
-  depends_on  = [module.vpc]
-  source      = "../modules/sg"
-  name        = "news-web-sg"
-  description = "news-web-sg"
 
-  vpc_id = module.vpc.vpc_id
-
-  ingress_rules = var.ingress_rules_2
-  egress_rules  = var.egress_rules_2
-  tags          = merge(var.global_tags, var.individual_tags.news-web-sg)
-}
 
 module "vpc" {
   source                       = "../modules/vpc"
@@ -122,60 +109,5 @@ module "vpc" {
   private_app_subnet_az2       = var.private_app_subnet_az2_abs
   private_app_subnet_az1       = var.private_app_subnet_az1_abs
 
-  tags = merge(var.global_tags, var.individual_tags.vpc)
+  tags = var.global_tags
 }
-
-# module "cloudfront-s3" {
-#   source      = "../modules/cloudfront-s3"
-#   bucket_name = var.bucket_name
-#   tags        = merge(var.global_tags, var.individual_tags.cloudfront_s3)
-# }
-
-
-# module "opensearch_dev" {
-#   source          = "../modules/opensearch"
-#   tags            = merge(var.global_tags, var.individual_tags.opensearch_dev)
-#   cluster_name    = var.cluster_name
-#   instance_type   = var.instance_type
-#   access_policies = <<POLICY
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Effect": "Allow",
-#       "Principal": {
-#         "Service": "es.amazonaws.com"
-#       },
-#       "Action": "es:*",
-#       "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/your-cluster-name/*"
-#     }
-#   ]
-# }
-# POLICY
-# }
-
-
-
-
-# module "opensearch_prod" {
-#   source          = "../modules/opensearch"
-#   tags            = merge(var.global_tags, var.individual_tags.opensearch_prod)
-#   cluster_name    = "prod-cluster"
-#   instance_type   = "t2.small.search"
-#   access_policies = <<POLICY
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Effect": "Allow",
-#       "Principal": {
-#         "Service": "es.amazonaws.com"
-#       },
-#       "Action": "es:*",
-#       "Resource": "arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/prod-cluster/*"
-#     }
-#   ]
-# }
-# POLICY
-# }
-

@@ -37,7 +37,7 @@ resource "aws_lambda_function" "test_lambda" {
     variables = var.function_configurations.env_var
   }
 
-#  tags = var.function_configurations.my_lambda_tags
-  tags = var.tags
+  #  tags = var.function_configurations.my_lambda_tags
+  tags = merge(var.tags, var.function_configurations.lambda_tags)
 }
 

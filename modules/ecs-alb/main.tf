@@ -1,11 +1,8 @@
 module "alb" {
   source              = "../alb"
-  alb_name            = var.alb_name
+  alb_configurations  = var.alb_configurations
   subnets             = var.subnets
   ecs_security_groups = var.ecs_security_groups
-  listener_port       = var.listener_port
-  target_group_name   = var.target_group_name
-  target_group_port   = var.target_group_port
   vpc_id              = var.vpc_id
   tags                = var.tags
 }

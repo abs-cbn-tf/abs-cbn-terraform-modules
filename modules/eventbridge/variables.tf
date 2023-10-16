@@ -6,6 +6,7 @@ variable "eventbridge_configuration" {
     event_bus_name       = string
     scheduled_expression = string
     event_pattern        = string
+    event_tags           = map(string)
   })
 }
 
@@ -21,6 +22,6 @@ variable "target_arn" {
 variable "tags" {
   description = "A map of tags to assign to the S3 bucket"
   type        = map(string)
-  default     = {}  # By default, it's an empty map (no tags). You can change this if needed.
+  default     = {} # By default, it's an empty map (no tags). You can change this if needed.
 }
 
