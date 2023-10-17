@@ -115,34 +115,56 @@ variable "alb_configurations" {
   })
 }
 
-# ECS CLUSTER VARIABLES 
-variable "tf_my_cluster" {}
-variable "tf_capacity_provider" {}
+#ECS
+variable "cluster_configurations" {
+  type = object({
+    cluster_name      = string
+    capacity_provider = string
+    cluster_tags      = map(string)
+  })
+}
+variable "taskdef_configurations" {
+  type = object({
+    task_family              = string
+    task_cpu                 = number
+    task_memory              = number
+    task_role_name           = string
+    network_mode             = string
+    requires_compatibilities = string
+    operating_system_family  = string
+    cpu_architecture         = string
 
-#ECS SERVICE VARIABLES
-variable "task_family" {}
-variable "task_cpu" {}
-variable "task_memory" {}
-variable "task_role_name" {}
-variable "network_mode" {}
-variable "ecs_lb_cport" {}
+    #container
+    container_name      = string
+    container_cpu       = number
+    container_memory    = number
+    container_port      = number
+    container_host_port = number
+    container_protocol  = string
 
-# Container Definition Variables
-variable "container_name" {}
-# variable "container_image" {}
-variable "container_cpu" {}
-variable "container_memory" {}
-variable "container_cport" {}
-variable "container_hport" {}
-variable "container_protocol" {}
-variable "requires_compatibilities" {}
-variable "operating_system" {}
-variable "cpu_architecture" {}
+    taskdef_tags = map(string)
+  })
+}
 
-# Variables for the service
-variable "service_name" {}
+variable "service_configurations" {
+  type = object({
+    service_name                       = string
+    desired_count                      = number #0
+    health_check_grace_period_seconds  = number #0
+    deployment_minimum_healthy_percent = number #100
+    deployment_maximum_percent         = number #200
+    ecs_lb_port                        = number #3000
+    assign_public_ip                   = bool   #true
+    service_tags                       = map(string)
+  })
+}
 
-variable "service_role_name" {}
+variable "repositories" {
+  description = "A list of ECR repository names to be created"
+  type        = string
+  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
+  default = "push-web"
+}
 
 # variables for vpc
 variable "project_name" {}
@@ -165,12 +187,6 @@ variable "egress_cidr_blocks" {
   default = []
 }
 variable "vpc_tags" {}
-
-## Variables for SG
-# variable "ingress_rules_1" {}
-# variable "ingress_rules_2" {}
-# variable "egress_rules_1" {}
-# variable "egress_rules_2" {}
 
 variable "sg_configurations_1" {
   type = object({
@@ -229,9 +245,23 @@ variable "global_tags" {
   }
 }
 
-variable "repositories" {
-  description = "A list of ECR repository names to be created"
-  type        = string
-  #  default     = ["migration-middleware", "workbench-api", "workbench-web"]
-  default = "push-web"
+variable "individual_tags" {
+  description = "Individual tags for specific modules"
+  type        = map(map(string))
+  default = {
+    vpc = {
+      # vpc
+      "abs::cost-center"      = "50016043"
+      "abs::criticality"      = "Silver"
+      "abs::environment"      = "UAT"
+      "abs::product"          = "NewsWeb"
+      "abs::tech-owner"       = "DCT"
+      "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+      "abs::url"              = "uat-news.abs-cbn.com"
+      "abs:backup"            = "No"
+      "abs::lob"              = "News"
+      "abs:shared"            = "No"
+      Name                    = "News Consumption"
+    }
+  }
 }

@@ -238,35 +238,108 @@ alb_configurations = {
   }
 }
 
+#ECS
+cluster_configurations = {
+  cluster_name      = "consumption-news"
+  capacity_provider = "FARGATE_SPOT"
+  cluster_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
+taskdef_configurations = {
+  task_family              = "news-web-taskdef"
+  task_cpu                 = 2048
+  task_memory              = 4096
+  task_role_name           = "news-taskdef-role"
+  network_mode             = "awsvpc"
+  requires_compatibilities = "FARGATE"
+  operating_system_family  = "LINUX"
+  cpu_architecture         = "X86_64"
 
-# ECS CLUSTER VARIABLES 
-tf_my_cluster        = "consumption-news"
-tf_capacity_provider = "FARGATE_SPOT"
+  #container
+  container_name      = "news-web-container"
+  container_cpu       = 0
+  container_memory    = 512
+  container_port      = 3000
+  container_host_port = 3000
+  container_protocol  = "tcp"
+
+  taskdef_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+
+}
+
+service_configurations = {
+
+  service_name                       = "news-ecs-web-service"
+  desired_count                      = 0
+  health_check_grace_period_seconds  = 0
+  deployment_minimum_healthy_percent = 100
+  deployment_maximum_percent         = 200
+  ecs_lb_port                        = 3000
+  assign_public_ip                   = true
+  service_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+
+}
+
+# # ECS CLUSTER VARIABLES 
+# tf_my_cluster        = "consumption-news"
+# tf_capacity_provider = "FARGATE_SPOT"
 
 #ECS SERVICE VARIABLES
-task_family    = "news-web-taskdef"
-task_cpu       = 2048
-task_memory    = 4096
-task_role_name = "news-taskdef-role"
-network_mode   = "awsvpc"
-ecs_lb_cport   = 3000
+# task_family    = "news-web-taskdef"
+# task_cpu       = 2048
+# task_memory    = 4096
+# task_role_name = "news-taskdef-role"
+# network_mode   = "awsvpc"
+# ecs_lb_cport   = 3000
 
-# Container Definition Variables
-container_name     = "news-web-container"
-container_cpu      = 0
-container_memory   = 512
-container_cport    = 3000
-container_hport    = 3000
-container_protocol = "tcp"
-# EOF Container Definitions Variables
-requires_compatibilities = "FARGATE"
-operating_system         = "LINUX"
-cpu_architecture         = "X86_64"
+# # Container Definition Variables
+# container_name     = "news-web-container"
+# container_cpu      = 0
+# container_memory   = 512
+# container_cport    = 3000
+# container_hport    = 3000
+# container_protocol = "tcp"
+# # EOF Container Definitions Variables
+# requires_compatibilities = "FARGATE"
+# operating_system         = "LINUX"
+# cpu_architecture         = "X86_64"
 
-# Variables for the service
-service_name      = "news-ecs-web-service"
-service_role_name = "IMP-News-service-role"
-repositories      = "news-web"
+# # Variables for the service
+# service_name      = "news-ecs-web-service"
+# service_role_name = "IMP-News-service-role"
+repositories = "news-web"
 
 # variables for vpc
 project_name                 = "consumption-news"
@@ -371,43 +444,5 @@ global_tags = {
   global_tags = "global_tag_value"
 }
 
-# individual_tags = {
-#   eventbridge-lambda-2 = {
-#     #news-imp-trending-data-service
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   apigw-lambda-1 = {
-#     #news-imp-content-api
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   apigw-lambda-2 = {
-#     #news-imp-page-api
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   function_1 = {
-#     #news-imp-syndicate-service
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   vpc = {
-#     k1 = "vpc"
-#     k2 = "VPC"
-#   }
-#   ecs_alb = {
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   news-web-ecs-service-sg = {
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-#   news-web-sg = {
-#     k1 = "v1"
-#     k2 = "v2"
-#   }
-# }
 
 

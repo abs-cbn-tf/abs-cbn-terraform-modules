@@ -35,43 +35,18 @@ module "ecs-alb" {
   depends_on = [module.vpc, module.news-web-sg, module.news-web-ecs-service-sg]
   source     = "../modules/ecs-alb"
   # alb
-  alb_configurations = var.alb_configurations
-  subnets            = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
-  # security_groups     = [module.push-web-ecs-service-sg.security_group_id]
+  alb_configurations  = var.alb_configurations
+  subnets             = [module.vpc.public_subnet_az1_id, module.vpc.public_subnet_az2_id]
   ecs_security_groups = [module.news-web-sg.security_group_id]
   vpc_id              = module.vpc.vpc_id
 
-  # cluster
-  tf_capacity_provider = var.tf_capacity_provider
-  tf_my_cluster        = var.tf_my_cluster
-
-  # service
-  task_family    = var.task_family
-  task_role_name = var.task_role_name
-  task_cpu       = var.task_cpu
-  task_memory    = var.task_memory
-  network_mode   = var.network_mode
+  # ECS
+  cluster_configurations = var.cluster_configurations
+  taskdef_configurations = var.taskdef_configurations
+  service_configurations = var.service_configurations
 
   repositories = var.repositories
-
-  # container_definitions = var.container_definitions
-  container_name = var.container_name
-  # container_image    = var.container_image
-  container_cpu      = var.container_cpu
-  container_memory   = var.container_memory
-  container_cport    = var.container_cport
-  container_hport    = var.container_hport
-  container_protocol = var.container_protocol
-
-  requires_compatibilities = var.requires_compatibilities
-  operating_system         = var.operating_system
-  cpu_architecture         = var.cpu_architecture
-
-  # service 
-  service_name      = var.service_name
-  service_role_name = var.service_role_name
-  ecs_lb_cport      = var.ecs_lb_cport
-  tags              = var.global_tags
+  tags         = var.global_tags
 
 }
 module "news-web-sg" {
@@ -109,5 +84,5 @@ module "vpc" {
   private_app_subnet_az2       = var.private_app_subnet_az2_abs
   private_app_subnet_az1       = var.private_app_subnet_az1_abs
 
-  tags = var.global_tags
+  tags = merge(var.global_tags, var.individual_tags.vpc)
 }

@@ -1,11 +1,9 @@
-variable "tf_my_cluster" {
-  description = "name for cluster"
-  type        = string
-}
-
-variable "tf_capacity_provider" {
-  description = "Type of provider (fagate or fargate spot)"
-  type        = string
+variable "cluster_configurations" {
+  type = object({
+    cluster_name      = string
+    capacity_provider = string
+    cluster_tags      = map(string)
+  })
 }
 
 variable "tags" {

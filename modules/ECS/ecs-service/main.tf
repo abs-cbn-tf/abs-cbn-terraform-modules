@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_group" "ecs_logs" {
-  name              = "/ecs/${var.task_family}" # Replace with your desired log group name
-  retention_in_days = 30                        # Adjust the retention period as needed
+  name              = "/ecs/${var.taskdef_configurations.task_family}" # Replace with your desired log group name
+  retention_in_days = 30                                               # Adjust the retention period as needed
 }
 resource "aws_ecr_repository" "example" {
   # count                = length(var.repositories)
@@ -14,33 +14,27 @@ resource "aws_ecr_repository" "example" {
   }
   tags = var.tags
 }
-#variable "task_role_name" {
-#  description = "Name for the IAM role that the ECS task will assume"
-#  type        = string
-#}
-
-
 module "iam_role" {
   source         = "../../iamroles"
-  task_role_name = var.task_role_name
+  task_role_name = var.taskdef_configurations.task_role_name
 }
 
 # image = aws_ecr_repository.example[1].repository_url 
 #"image": "${var.container_image}"
 
 resource "aws_ecs_task_definition" "taskdef" {
-  family = var.task_family
+  family = var.taskdef_configurations.task_family
   # container_definitions = var.container_definitions
   container_definitions = jsonencode([{
-    name   = "${var.container_name}"
+    name   = "${var.taskdef_configurations.container_name}"
     image  = "${aws_ecr_repository.example.repository_url}:latest"
-    cpu    = "${var.container_cpu}"
-    memory = "${var.container_memory}"
+    cpu    = "${var.taskdef_configurations.container_cpu}"
+    memory = "${var.taskdef_configurations.container_memory}"
 
     portMappings = [{
-      containerPort = "${var.container_cport}"
-      hostPort      = "${var.container_hport}"
-      protocol      = "${var.container_protocol}"
+      containerPort = "${var.taskdef_configurations.container_port}"
+      hostPort      = "${var.taskdef_configurations.container_host_port}"
+      protocol      = "${var.taskdef_configurations.container_protocol}"
     }]
     log_configuration = {
       log_driver = "awslogs"
@@ -52,19 +46,18 @@ resource "aws_ecs_task_definition" "taskdef" {
     }
     }
   ])
-  #  execution_role_arn       = aws_iam_role.role.arn
-  execution_role_arn = module.iam_role.iam_role_arn
-  task_role_arn      = module.iam_role.iam_role_arn
-  #  task_role_arn            = module.iam_role.iam_role_arn
-  cpu                      = var.task_cpu
-  memory                   = var.task_memory
-  network_mode             = var.network_mode
-  requires_compatibilities = ["${var.requires_compatibilities}"]
+
+  execution_role_arn       = module.iam_role.iam_role_arn
+  task_role_arn            = module.iam_role.iam_role_arn
+  cpu                      = var.taskdef_configurations.task_cpu
+  memory                   = var.taskdef_configurations.task_memory
+  network_mode             = var.taskdef_configurations.network_mode
+  requires_compatibilities = ["${var.taskdef_configurations.requires_compatibilities}"]
   runtime_platform {
-    operating_system_family = var.operating_system
-    cpu_architecture        = var.cpu_architecture
+    operating_system_family = var.taskdef_configurations.operating_system_family
+    cpu_architecture        = var.taskdef_configurations.cpu_architecture
   }
-  tags = var.tags
+  tags = merge(var.tags, var.taskdef_configurations.taskdef_tags)
 }
 
 resource "aws_iam_role_policy_attachment" "attach1" {
@@ -81,26 +74,26 @@ resource "aws_iam_role_policy_attachment" "attach2" {
 
 # ECS Service
 resource "aws_ecs_service" "ecs_service" {
-  name                              = var.service_name
+  name                              = var.service_configurations.service_name
   cluster                           = var.cluster_arn
   task_definition                   = aws_ecs_task_definition.taskdef.arn
-  desired_count                     = 0
-  health_check_grace_period_seconds = 0
+  desired_count                     = var.service_configurations.desired_count
+  health_check_grace_period_seconds = var.service_configurations.health_check_grace_period_seconds
 
-  deployment_minimum_healthy_percent = 100
-  deployment_maximum_percent         = 200
-  tags                               = var.tags
+  deployment_minimum_healthy_percent = var.service_configurations.deployment_minimum_healthy_percent
+  deployment_maximum_percent         = var.service_configurations.deployment_maximum_percent
+
+  tags = merge(var.tags, var.service_configurations.service_tags)
   load_balancer {
     target_group_arn = var.alb_tg_arn #put arn here from output
-    container_name   = var.container_name
-    container_port   = var.ecs_lb_cport
-
+    container_name   = var.taskdef_configurations.container_name
+    container_port   = var.service_configurations.ecs_lb_port
   }
 
   network_configuration {
     subnets          = var.subnets             # Replace with your subnet IDs
     security_groups  = var.ecs_security_groups # Replace with your security group IDs
-    assign_public_ip = true
+    assign_public_ip = var.service_configurations.assign_public_ip
   }
 }
 
