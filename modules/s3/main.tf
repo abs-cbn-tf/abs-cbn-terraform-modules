@@ -1,14 +1,14 @@
 resource "aws_s3_bucket" "site_origin" {
-  bucket = var.bucket_name
-  tags   = var.tags
+  bucket = var.s3_configurations.bucket_name
+  tags   = merge(var.tags, var.s3_configurations.bucket_tags)
 }
 
 resource "aws_s3_bucket_public_access_block" "site_origin" {
   bucket                  = aws_s3_bucket.site_origin.bucket
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = var.s3_configurations.block_public_acls
+  block_public_policy     = var.s3_configurations.block_public_policy
+  ignore_public_acls      = var.s3_configurations.ignore_public_acls
+  restrict_public_buckets = var.s3_configurations.restrict_public_buckets
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "site_origin" {
@@ -16,7 +16,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "site_origin" {
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm = var.s3_configurations.sse_algorithm
     }
   }
 }
@@ -25,7 +25,7 @@ resource "aws_s3_bucket_versioning" "site_origin" {
   bucket = aws_s3_bucket.site_origin.bucket
 
   versioning_configuration {
-    status = "Enabled"
+    status = var.s3_configurations.bucket_versioning
   }
 }
 
@@ -35,10 +35,10 @@ resource "aws_s3_object" "content" {
   ]
 
   bucket                 = aws_s3_bucket.site_origin.bucket
-  key                    = "index.html"
-  source                 = "./index.html"
-  server_side_encryption = "AES256"
-  content_type           = "text/html"
+  key                    = var.s3_configurations.key
+  source                 = var.s3_configurations.source
+  server_side_encryption = var.s3_configurations.server_side_encryption
+  content_type           = var.s3_configurations.content_type
 }
 
 resource "aws_s3_bucket_policy" "site_origin" {

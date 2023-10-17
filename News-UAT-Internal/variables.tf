@@ -119,32 +119,131 @@ variable "function_configurations_1" {
 }
 
 # cloudfront-s3
-variable "bucket_name_1" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
-variable "tags_1" {
-  description = "The tags to assign to the S3 bucket"
-  type        = map(string)
+variable "cloudfront_configurations_1" {
+  type = object({
+    # random ID
+    byte_length = number
+    # origin access
+    origin_access_description = string # "News Origin Access"
+    origin_access_type        = string # "s3"
+    origin_signing_behavior   = string # "always"
+    origin_signing_protocol   = string # "sigv4"
+    # distribution 
+    distribution_enabled   = bool         # true
+    default_root_object    = string       # index.html
+    allowed_methods        = list(string) # ["GET", "HEAD"]
+    cached_methods         = list(string) # ["GET", "HEAD"]
+    viewer_protocol_policy = string       # "allow-all"
+    distribution_tags      = map(string)
+  })
 }
 
-variable "bucket_name_2" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
-variable "tags_2" {
-  description = "The tags to assign to the S3 bucket"
-  type        = map(string)
+variable "s3_configurations_1" {
+  type = object({
+    # bucket
+    bucket_name = string
+    # block public access
+    block_public_acls       = bool #true 
+    block_public_policy     = bool #true 
+    ignore_public_acls      = bool #true  
+    restrict_public_buckets = bool #true 
+    # s3 encryption
+    sse_algorithm = string #"AES256"
+    # bucket versioning
+    bucket_versioning = string #"Enabled"
+    #s3 object
+    key                    = string #"index.html"
+    source                 = string #"./index.html"
+    server_side_encryption = string #"AES256"
+    content_type           = string #"text/html"
+    # taggings
+    bucket_tags = map(string)
+  })
 }
 
-variable "bucket_name_3" {
-  description = "The name of the S3 bucket"
-  type        = string
+variable "cloudfront_configurations_2" {
+  type = object({
+    # random ID
+    byte_length = number
+    # origin access
+    origin_access_description = string # "News Origin Access"
+    origin_access_type        = string # "s3"
+    origin_signing_behavior   = string # "always"
+    origin_signing_protocol   = string # "sigv4"
+    # distribution 
+    distribution_enabled   = bool         # true
+    default_root_object    = string       # index.html
+    allowed_methods        = list(string) # ["GET", "HEAD"]
+    cached_methods         = list(string) # ["GET", "HEAD"]
+    viewer_protocol_policy = string       # "allow-all"
+    distribution_tags      = map(string)
+  })
 }
-variable "tags_3" {
-  description = "The tags to assign to the S3 bucket"
-  type        = map(string)
+
+variable "s3_configurations_2" {
+  type = object({
+    # bucket
+    bucket_name = string
+    # block public access
+    block_public_acls       = bool #true 
+    block_public_policy     = bool #true 
+    ignore_public_acls      = bool #true  
+    restrict_public_buckets = bool #true 
+    # s3 encryption
+    sse_algorithm = string #"AES256"
+    # bucket versioning
+    bucket_versioning = string #"Enabled"
+    #s3 object
+    key                    = string #"index.html"
+    source                 = string #"./index.html"
+    server_side_encryption = string #"AES256"
+    content_type           = string #"text/html"
+    # taggings
+    bucket_tags = map(string)
+  })
 }
+variable "cloudfront_configurations_3" {
+  type = object({
+    # random ID
+    byte_length = number
+    # origin access
+    origin_access_description = string # "News Origin Access"
+    origin_access_type        = string # "s3"
+    origin_signing_behavior   = string # "always"
+    origin_signing_protocol   = string # "sigv4"
+    # distribution 
+    distribution_enabled   = bool         # true
+    default_root_object    = string       # index.html
+    allowed_methods        = list(string) # ["GET", "HEAD"]
+    cached_methods         = list(string) # ["GET", "HEAD"]
+    viewer_protocol_policy = string       # "allow-all"
+    distribution_tags      = map(string)
+  })
+}
+
+variable "s3_configurations_3" {
+  type = object({
+    # bucket
+    bucket_name = string
+    # block public access
+    block_public_acls       = bool #true 
+    block_public_policy     = bool #true 
+    ignore_public_acls      = bool #true  
+    restrict_public_buckets = bool #true 
+    # s3 encryption
+    sse_algorithm = string #"AES256"
+    # bucket versioning
+    bucket_versioning = string #"Enabled"
+    #s3 object
+    key                    = string #"index.html"
+    source                 = string #"./index.html"
+    server_side_encryption = string #"AES256"
+    content_type           = string #"text/html"
+    # taggings
+    bucket_tags = map(string)
+  })
+}
+
 
 # GLOBAL TAGGINGS
 variable "global_tags" {
@@ -152,55 +251,9 @@ variable "global_tags" {
   # type        = map(string)
   type = object(
     {
-      g1 = string
-      g2 = string
+      global_tag = string
     }
   )
-}
-
-variable "individual_tags" {
-  description = "Individual tags for specific modules"
-  type        = map(map(string))
-  default = {
-    function_1 = {
-      # kentico-news-service-lambda
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-1 = {
-      # imp-news-wb-lite-api
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-2 = {
-      # imp-news-image-upload
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-3 = {
-      # imp-news-image
-      k1 = "v1"
-      k2 = "v2"
-    }
-    apigw-lambda-4 = {
-      # imp-news-pcm-api
-      k1 = "v1"
-      k2 = "v2"
-    }
-    cloudfront_s3_1 = {
-      k1 = "cf1"
-      k2 = "v2"
-    }
-    cloudfront_s3_2 = {
-      k1 = "cf2"
-      k2 = "v2"
-    }
-    cloudfront_s3_3 = {
-      k1 = "cf3"
-      k2 = "v2"
-    }
-    // Add more individual tags for other modules as needed
-  }
 }
 
 # variable "repositories" {

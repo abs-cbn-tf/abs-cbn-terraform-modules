@@ -29,9 +29,17 @@ apigw_function_configurations_1 = {
     WB_PUSH_DESK                = ""
     WB_READY_FOR_REVIEW_STAGE   = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -43,6 +51,18 @@ apigw_configurations_1 = {
   stage_name    = "Prod"
   api_key       = "imp-news-wb-lite-api-key"
   usage_plan    = "imp-news-wb-lite-api-plan"
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 apigw_function_configurations_2 = {
@@ -56,9 +76,17 @@ apigw_function_configurations_2 = {
     BUCKET_NAME   = ""
     IMAGE_SERVICE = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -70,6 +98,19 @@ apigw_configurations_2 = {
   stage_name    = "Prod"
   api_key       = "imp-news-image-upload-API-key"
   usage_plan    = "imp-news-image-upload-API-plan"
+
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 apigw_function_configurations_3 = {
@@ -83,9 +124,17 @@ apigw_function_configurations_3 = {
     BUCKET     = ""
     BUCKET_ENT = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -97,6 +146,19 @@ apigw_configurations_3 = {
   stage_name    = "Prod"
   api_key       = "news-image-key"
   usage_plan    = "news-image-plan"
+
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 apigw_function_configurations_4 = {
@@ -113,9 +175,17 @@ apigw_function_configurations_4 = {
     MONGODB_URL       = ""
     NODE_ENV          = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
@@ -127,6 +197,19 @@ apigw_configurations_4 = {
   stage_name    = "Prod"
   api_key       = "news-pb-api-key"
   usage_plan    = "news-pb-api-plan"
+
+  apigw_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
 
@@ -143,39 +226,198 @@ function_configurations_1 = {
     s3BlobURL      = ""
     tokenSalt      = ""
   }
-  my_lambda_tags = {
-    App         = "News"
-    Environment = "UAT"
+  lambda_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
   }
 }
 
 #cloudfront-s3
-bucket_name_1 = "news-cms-store-uat"
-tags_1 = {
-  key1 = "value1"
-  key2 = "value2"
+s3_configurations_1 = {
+  # bucket
+  bucket_name = "news-cms-store-uat"
+  # block public access
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+  # s3 encryption
+  sse_algorithm = "AES256"
+  # bucket versioning
+  bucket_versioning = "Enabled"
+  #s3 object
+  key                    = "index.html"
+  source                 = "./index.html"
+  server_side_encryption = "AES256"
+  content_type           = "text/html"
+  # taggings
+  bucket_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
-bucket_name_2 = "imp-news-wb-lite-ui-uat"
-tags_2 = {
-  key1 = "value1"
-  key2 = "value2"
-}
-bucket_name_3 = "imp-news-pb-ui-uat"
-tags_3 = {
-  key1 = "value1"
-  key2 = "value2"
+cloudfront_configurations_1 = {
+  # random ID
+  byte_length = 8
+  # origin access
+  origin_access_description = "News Origin Access"
+  origin_access_type        = "s3"
+  origin_signing_behavior   = "always"
+  origin_signing_protocol   = "sigv4"
+  # distribution 
+  distribution_enabled   = true
+  default_root_object    = "index.html"
+  allowed_methods        = ["GET", "HEAD"]
+  cached_methods         = ["GET", "HEAD"]
+  viewer_protocol_policy = "allow-all"
+  distribution_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
 }
 
+s3_configurations_2 = {
+  # bucket
+  bucket_name = "imp-news-wb-lite-ui-uat"
+  # block public access
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+  # s3 encryption
+  sse_algorithm = "AES256"
+  # bucket versioning
+  bucket_versioning = "Enabled"
+  #s3 object
+  key                    = "index.html"
+  source                 = "./index.html"
+  server_side_encryption = "AES256"
+  content_type           = "text/html"
+  # taggings
+  bucket_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
+cloudfront_configurations_2 = {
+  # random ID
+  byte_length = 8
+  # origin access
+  origin_access_description = "News Origin Access"
+  origin_access_type        = "s3"
+  origin_signing_behavior   = "always"
+  origin_signing_protocol   = "sigv4"
+  # distribution 
+  distribution_enabled   = true
+  default_root_object    = "index.html"
+  allowed_methods        = ["GET", "HEAD"]
+  cached_methods         = ["GET", "HEAD"]
+  viewer_protocol_policy = "allow-all"
+  distribution_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
+
+s3_configurations_3 = {
+  # bucket
+  bucket_name = "imp-news-pb-ui-uat"
+  # block public access
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+  # s3 encryption
+  sse_algorithm = "AES256"
+  # bucket versioning
+  bucket_versioning = "Enabled"
+  #s3 object
+  key                    = "index.html"
+  source                 = "./index.html"
+  server_side_encryption = "AES256"
+  content_type           = "text/html"
+  # taggings
+  bucket_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
+cloudfront_configurations_3 = {
+  # random ID
+  byte_length = 8
+  # origin access
+  origin_access_description = "News Origin Access"
+  origin_access_type        = "s3"
+  origin_signing_behavior   = "always"
+  origin_signing_protocol   = "sigv4"
+  # distribution 
+  distribution_enabled   = true
+  default_root_object    = "index.html"
+  allowed_methods        = ["GET", "HEAD"]
+  cached_methods         = ["GET", "HEAD"]
+  viewer_protocol_policy = "allow-all"
+  distribution_tags = {
+    "abs::cost-center"      = "50016043"
+    "abs::criticality"      = "Silver"
+    "abs::environment"      = "UAT"
+    "abs::product"          = "NewsWeb"
+    "abs::tech-owner"       = "DCT"
+    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
+    "abs::url"              = "uat-news.abs-cbn.com"
+    "abs:backup"            = "No"
+    "abs::lob"              = "News"
+    "abs:shared"            = "No"
+  }
+}
 # GLOBAL TAGGINGS
 global_tags = {
-  "abs::cost-center"      = "50016043"
-  "abs::criticality"      = "Silver"
-  "abs::environment"      = "UAT"
-  "abs::product"          = "NewsWeb"
-  "abs::tech-owner"       = "DCT"
-  "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
-  "abs::url"              = "uat-news.abs-cbn.com"
-  "abs:backup"            = "No"
-  "abs::lob"              = "News"
-  "abs:shared"            = "No"
+  global_tag = "global_tag_value"
 }
