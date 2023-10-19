@@ -33,97 +33,13 @@ variable "service_configurations" {
     health_check_grace_period_seconds  = number #0
     deployment_minimum_healthy_percent = number #100
     deployment_maximum_percent         = number #200
+    circuit_breaker_enable             = bool
+    circuit_breaker_rollback           = bool
     ecs_lb_port                        = number #3000
     assign_public_ip                   = bool   #true
     service_tags                       = map(string)
   })
 }
-# variable "task_family" {
-#   description = "Family for task (name)"
-#   type        = string
-# }
-
-# variable "task_cpu" {
-#   description = "CPU for task"
-#   type        = number
-# }
-
-# variable "task_memory" {
-#   description = "Memory for task"
-#   type        = number
-# }
-
-# variable "task_role_name" {
-#   description = "Role name for task"
-#   type        = string
-# }
-
-# variable "network_mode" {
-#   description = "Network mode for task"
-#   type        = string
-# }
-
-# # variable "container_definitions" {
-# #   description = "Network mode for task"
-# #   type        = string
-# # }
-# # Container Definition Variables
-# variable "container_name" {
-#   description = "Container Name"
-#   type        = string
-# }
-# # variable "container_image" {
-# #   description = "Container Image"
-# #   type        = string
-# # }
-# variable "container_cpu" {
-#   description = "Container CPU"
-#   type        = number
-# }
-# variable "container_memory" {
-#   description = "Container Memory"
-#   type        = number
-# }
-# variable "container_cport" {
-#   description = "Container Container Port"
-#   type        = number
-# }
-# variable "container_hport" {
-#   description = "Container Host Port"
-#   type        = number
-# }
-# variable "container_protocol" {
-#   description = "Container Protocol"
-#   type        = string
-# }
-# # EOF Container Definitions Variables
-
-# variable "requires_compatibilities" {
-#   description = "Container Definitions"
-#   type        = string
-# }
-
-# variable "operating_system" {
-#   description = "Container Definitions"
-#   type        = string
-# }
-
-# variable "cpu_architecture" {
-#   description = "Container Definitions"
-#   type        = string
-# }
-
-# # Variables for the service
-# variable "service_name" {
-#   description = "Container Definitions"
-#   type        = string
-# }
-
-# variable "service_role_name" {
-#   description = "Container Definitions"
-#   type        = string
-# }
-# variable "ecs_lb_cport" {}
 
 # CLUSTER VARIABLES
 variable "cluster_configurations" {
@@ -158,7 +74,11 @@ variable "alb_configurations" {
 }
 
 variable "subnets" {
-  description = "List of subnets where the ALB will be deployed"
+  description = "List of subnets where the service will be deployed"
+  type        = list(string)
+}
+variable "service_subnets" {
+  description = "List of subnets where the service will be deployed"
   type        = list(string)
 }
 

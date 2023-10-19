@@ -153,6 +153,8 @@ variable "service_configurations" {
     health_check_grace_period_seconds  = number #0
     deployment_minimum_healthy_percent = number #100
     deployment_maximum_percent         = number #200
+    circuit_breaker_enable             = bool
+    circuit_breaker_rollback           = bool
     ecs_lb_port                        = number #3000
     assign_public_ip                   = bool   #true
     service_tags                       = map(string)

@@ -1,5 +1,5 @@
 aws_region = "ap-southeast-1"
-profile    = "News-UAT-External"
+profile    = "default"
 # FOR LAMBDAS WITH EVENTS TRIGGER
 events_function_configurations_2 = {
   function_name = "news-imp-trending-data-service"
@@ -289,14 +289,15 @@ taskdef_configurations = {
 }
 
 service_configurations = {
-
   service_name                       = "news-ecs-web-service"
-  desired_count                      = 0
+  desired_count                      = 1
   health_check_grace_period_seconds  = 0
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
+  circuit_breaker_enable             = true
+  circuit_breaker_rollback           = false
   ecs_lb_port                        = 3000
-  assign_public_ip                   = true
+  assign_public_ip                   = false
   service_tags = {
     "abs::cost-center"      = "50016043"
     "abs::criticality"      = "Silver"
@@ -311,34 +312,6 @@ service_configurations = {
   }
 
 }
-
-# # ECS CLUSTER VARIABLES 
-# tf_my_cluster        = "consumption-news"
-# tf_capacity_provider = "FARGATE_SPOT"
-
-#ECS SERVICE VARIABLES
-# task_family    = "news-web-taskdef"
-# task_cpu       = 2048
-# task_memory    = 4096
-# task_role_name = "news-taskdef-role"
-# network_mode   = "awsvpc"
-# ecs_lb_cport   = 3000
-
-# # Container Definition Variables
-# container_name     = "news-web-container"
-# container_cpu      = 0
-# container_memory   = 512
-# container_cport    = 3000
-# container_hport    = 3000
-# container_protocol = "tcp"
-# # EOF Container Definitions Variables
-# requires_compatibilities = "FARGATE"
-# operating_system         = "LINUX"
-# cpu_architecture         = "X86_64"
-
-# # Variables for the service
-# service_name      = "news-ecs-web-service"
-# service_role_name = "IMP-News-service-role"
 repositories = "news-web"
 
 # variables for vpc

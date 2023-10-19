@@ -18,9 +18,10 @@ module "ecs-service" {
 
   taskdef_configurations = var.taskdef_configurations
   service_configurations = var.service_configurations
+  cluster_name           = module.ecs-cluster.cluster_arn
 
   # network
-  subnets             = var.subnets
+  service_subnets     = var.service_subnets
   ecs_security_groups = var.ecs_security_groups
 
   cluster_arn = module.ecs-cluster.cluster_arn
