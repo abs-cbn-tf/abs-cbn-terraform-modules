@@ -21,11 +21,11 @@ $HOME/.aws/credentials
 
 terraform {
   backend "s3" {
-    bucket         = "news-abs-cbn-terraform-state-uat-external-test"
+    bucket         = "news-abs-cbn-terraform-state-uat-external"
     key            = "news-uat-external/terraform.tfstate"
     region         = "ap-southeast-1" # Set your desired AWS region
     encrypt        = true
     dynamodb_table = "terraform-IMP"
-    profile        = "default"
+    profile        = "News-UAT-External"
   }
 }
