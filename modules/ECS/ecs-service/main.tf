@@ -72,6 +72,12 @@ resource "aws_iam_role_policy_attachment" "attach2" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role_policy_attachment" "attach3" {
+  #  role       = aws_iam_role.role.name
+  role       = module.iam_role.iam_role_name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 # ECS Service
 resource "aws_ecs_service" "ecs_service" {
   name            = var.service_configurations.service_name
