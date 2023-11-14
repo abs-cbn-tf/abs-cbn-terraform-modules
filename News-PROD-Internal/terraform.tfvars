@@ -1,5 +1,5 @@
 aws_region = "ap-southeast-1"
-profile    = "News-Prod-External"
+profile    = "News-Prod-Internal"
 # FOR LAMBDAS WITH EVENTS TRIGGER
 #FOR LAMBDAS WITH APIGW TRIGGER
 apigw_function_configurations_1 = {
