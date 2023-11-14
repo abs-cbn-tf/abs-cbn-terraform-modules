@@ -26,6 +26,6 @@ terraform {
     region         = "ap-southeast-1" # Set your desired AWS region
     encrypt        = true
     dynamodb_table = "terraform-IMP"
-    profile        = "News-PROD-Internal"
+    profile        = "News-Prod-External"
   }
 }
