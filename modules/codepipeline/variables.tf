@@ -1,19 +1,30 @@
-variable "aws_region" {}
-variable "profile" {}
+# variable "sg_configurations" {
+#   type = object({
+#     sg_name        = string
+#     sg_description = string
 
-variable "function_configurations_1" {
-  description = "Map of Lambda function configurations"
-  type = object({
-    function_name = string
-    iam_role_name = string
-    runtime       = string
-    handler       = string
-    memory        = number
-    env_var       = map(string)
-    lambda_tags   = map(string)
-  })
+#     ingress_rules = list(object({
+#       from_port   = number
+#       to_port     = number
+#       protocol    = string
+#       cidr_blocks = list(string)
+#       self        = bool
+#     }))
+#     egress_rules = list(object({
+#       from_port   = number
+#       to_port     = number
+#       protocol    = string
+#       cidr_blocks = list(string)
+#       self        = bool
+#     }))
+
+#     sg_tags = map(string)
+#   })
+# }
+
+variable "include_deploy_stage" {
+  type = bool
 }
-
 variable "codepipeline_source_configuration" {
   type = object({
     name = string # "Source"
@@ -54,9 +65,4 @@ variable "codepipeline_build_configuration" {
       }))
     }))
   })
-}
-
-variable "include_deploy_stage" {
-  type    = bool
-  default = false
 }
