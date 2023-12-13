@@ -27,12 +27,6 @@ module "apigw-lambda-4" {
   apigw_configurations    = var.apigw_configurations_4
   tags                    = var.global_tags
 }
-module "function_1" {
-  source                  = "../modules/lambda"
-  aws_region              = var.aws_region
-  function_configurations = var.function_configurations_1
-  tags                    = var.global_tags
-}
 
 module "cloudfront_s3_1" {
   source                    = "../modules/cloudfront-s3"

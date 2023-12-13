@@ -212,34 +212,6 @@ apigw_configurations_4 = {
   }
 }
 
-
-function_configurations_1 = {
-  function_name = "kentico-news-service-lambda"
-  iam_role_name = "kentico-news-service-lambda-role"
-  runtime       = "nodejs18.x"
-  handler       = "index.handler"
-  memory        = 128
-  env_var = {
-    dbName         = ""
-    mongoDBConnect = ""
-    pushApiURL     = ""
-    s3BlobURL      = ""
-    tokenSalt      = ""
-  }
-  lambda_tags = {
-    "abs::cost-center"      = "50016043"
-    "abs::criticality"      = "Silver"
-    "abs::environment"      = "UAT"
-    "abs::product"          = "NewsWeb"
-    "abs::tech-owner"       = "DCT"
-    "abs::tech-owner-email" = "mardelacruz@abs-cbn.com"
-    "abs::url"              = "uat-news.abs-cbn.com"
-    "abs:backup"            = "No"
-    "abs::lob"              = "News"
-    "abs:shared"            = "No"
-  }
-}
-
 #cloudfront-s3
 s3_configurations_1 = {
   # bucket

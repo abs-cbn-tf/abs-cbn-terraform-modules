@@ -3,11 +3,14 @@ profile    = "default"
 
 function_configurations_1 = {
   function_name = "imp-content-api"
-  iam_role_name = "kentico-news-service-lambda-role"
+  iam_role_name = "imp-content-api-role"
   runtime       = "nodejs18.x"
   handler       = "index.handler"
   memory        = 128
   env_var = {
+    variable_1 = ""
+    variable_2 = ""
+    variable_3 = ""
   }
   lambda_tags = {
   }
